@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 // Generates simple floating particles (reused aesthetic)
 const Particles = () => {
@@ -48,6 +48,7 @@ const Particles = () => {
 };
 
 export const NewsletterSection = () => {
+  const { config } = useCMSContext();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
@@ -88,9 +89,19 @@ export const NewsletterSection = () => {
           </motion.span>
           
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8">
-            <span className="block overflow-hidden pb-2"><motion.span className="block" initial={{ y: "100%" }} whileInView={{ y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>Become</motion.span></span>
-            <span className="block overflow-hidden pb-2"><motion.span className="block" initial={{ y: "100%" }} whileInView={{ y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>Part of</motion.span></span>
-            <span className="block overflow-hidden pb-2"><motion.span className="block" initial={{ y: "100%" }} whileInView={{ y: 0 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}>Kingsmen</motion.span></span>
+            {config.newsletter.title.split(' ').map((word, i) => (
+              <span key={i} className="inline-block overflow-hidden pb-2 mr-3">
+                <motion.span 
+                  className="block" 
+                  initial={{ y: "100%" }} 
+                  whileInView={{ y: 0 }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 1, delay: 0.1 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            ))}
           </h2>
           
           <motion.p
@@ -98,9 +109,9 @@ export const NewsletterSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light max-w-2xl mx-auto"
+            className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light max-w-2xl mx-auto whitespace-pre-line"
           >
-            Receive exclusive fragrance launches, limited collections, seasonal releases and stories crafted for those who appreciate timeless luxury.
+            {config.newsletter.description}
           </motion.p>
         </div>
 
@@ -122,7 +133,7 @@ export const NewsletterSection = () => {
                 className="flex items-center justify-center p-6 border border-[#EBD5B3]/30 rounded-sm bg-[rgba(20,20,22,0.6)] backdrop-blur-md"
               >
                 <span className="text-[#EBD5B3] font-serif text-xl tracking-wide">
-                  ✓ Welcome to Kingsmen.
+                  ✓ {config.newsletter.successMessage}
                 </span>
               </motion.div>
             ) : (

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { useProducts } from '../../hooks/useProducts';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 // Generates simple floating particles
 const Particles = () => {
@@ -51,6 +52,7 @@ const Particles = () => {
 };
 
 export const SignatureCollection = () => {
+  const { config } = useCMSContext();
   const { products } = useProducts();
   const [activeIndex, setActiveIndex] = useState(0);
   const activeProduct = products.length > 0 ? products[activeIndex] : null;
@@ -96,11 +98,11 @@ export const SignatureCollection = () => {
             <span className="text-[#E8D3A2] tracking-[0.3em] text-[10px] uppercase font-semibold block mb-4">
               Premium Lineup
             </span>
-            <h2 className="text-white text-4xl lg:text-5xl font-light tracking-widest uppercase mb-6">
-              Signature<br />Collection
+            <h2 className="text-white text-4xl lg:text-5xl font-light tracking-widest uppercase mb-6 whitespace-pre-line">
+              {config.collections.signature.title}
             </h2>
-            <p className="text-white/50 text-[15px] font-light leading-relaxed max-w-md">
-              Discover the olfactory masterpieces. Each fragrance is meticulously crafted to evoke an unforgettable presence.
+            <p className="text-white/50 text-[15px] font-light leading-relaxed max-w-md whitespace-pre-line">
+              {config.collections.signature.description}
             </p>
           </motion.div>
 

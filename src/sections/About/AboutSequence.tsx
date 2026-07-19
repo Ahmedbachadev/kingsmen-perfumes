@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const AboutSequence = () => {
+  const { config } = useCMSContext();
   const [loadedCount, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -178,19 +180,16 @@ export const AboutSequence = () => {
 
               <h2
                 ref={headingRef}
-                className="text-white text-4xl lg:text-5xl font-light leading-[1.15] mb-12 tracking-tight"
+                className="text-white text-4xl lg:text-5xl font-light leading-[1.15] mb-12 tracking-tight whitespace-pre-line"
               >
-                Crafted With Purpose.<br />
-                Designed To Leave A Legacy.
+                {config.about.title}
               </h2>
 
               <div
                 ref={descRef}
-                className="text-gray-400 font-light text-[15px] leading-relaxed space-y-6"
+                className="text-gray-400 font-light text-[15px] leading-relaxed space-y-6 whitespace-pre-line"
               >
-                <p>Kingsmen is built on the belief that fragrance is more than a scent.</p>
-                <p>It is identity, confidence, presence, and memory.</p>
-                <p>Every creation is designed to embody character, elevate everyday moments, and leave a lasting impression long after the first encounter.</p>
+                {config.about.description}
               </div>
 
               <div

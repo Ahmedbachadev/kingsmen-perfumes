@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const LadiesSequence: React.FC = () => {
+  const { config } = useCMSContext();
   const [loadedCount, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -183,20 +185,16 @@ export const LadiesSequence: React.FC = () => {
 
                   <h2
                     style={{ opacity: headlineOpacity, transform: `translateY(${headlineY}px)` }}
-                    className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10"
+                    className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10 whitespace-pre-line"
                   >
-                    Elegance <br />
-                    In Every <br />
-                    Moment
+                    {config.collections.ladies.title}
                   </h2>
 
                   <p
                     style={{ opacity: paragraphOpacity, transform: `translateY(${paragraphY}px)` }}
-                    className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md"
+                    className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md whitespace-pre-line"
                   >
-                    Discover the essence of refined grace. A luminous curation of
-                    delicate florals, soft musks, and radiant accords designed to leave
-                    a trail of quiet sophistication.
+                    {config.collections.ladies.description}
                   </p>
 
                   <div style={{ opacity: buttonOpacity, transform: `translateY(${buttonY}px)` }}>

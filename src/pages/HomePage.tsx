@@ -20,12 +20,14 @@ import { useTransitionStore } from '../features/transitions';
 import { GlobalLoader } from '../components/GlobalLoader/GlobalLoader';
 import { AboutMobile } from '../features/about/AboutMobile';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { useCMSContext } from '../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HomePage() {
   const { setPageReady } = useTransitionStore();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const { config } = useCMSContext();
 
   useEffect(() => {
     setPageReady();
@@ -317,13 +319,13 @@ export default function HomePage() {
         exit={{ opacity: 0, y: '-100%', filter: 'blur(10px)' }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <HeroSection />
+        {config.hero.isVisible && <HeroSection />}
         {isDesktop ? <AboutSequence /> : <AboutMobile />}
-        {isDesktop ? <SignatureCollection /> : <SignatureCollectionMobile />}
+        {config.collections.signature.isVisible && (isDesktop ? <SignatureCollection /> : <SignatureCollectionMobile />)}
         <KingsmenDifference />
-        {isDesktop ? <GentlemenSequence /> : <MobileGentlemenSection />}
-        {isDesktop ? <LadiesSequence /> : <MobileLadiesSection />}
-        {isDesktop ? <UnisexSequence /> : <MobileUnisexSection />}
+        {config.collections.gentlemen.isVisible && (isDesktop ? <GentlemenSequence /> : <MobileGentlemenSection />)}
+        {config.collections.ladies.isVisible && (isDesktop ? <LadiesSequence /> : <MobileLadiesSection />)}
+        {config.collections.unisex.isVisible && (isDesktop ? <UnisexSequence /> : <MobileUnisexSection />)}
         <FAQSection />
         <NewsletterSection />
       </motion.div>

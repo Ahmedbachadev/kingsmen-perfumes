@@ -14,6 +14,7 @@ interface CartContextType {
   addToCart: (product: ShopifyProduct, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -91,6 +92,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -101,6 +106,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
       }}
     >
       {children}

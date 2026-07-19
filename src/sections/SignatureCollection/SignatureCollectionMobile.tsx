@@ -5,10 +5,12 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useProducts } from '../../hooks/useProducts';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const SignatureCollectionMobile = () => {
+  const { config } = useCMSContext();
   const { products, loading } = useProducts();
   const [showAll, setShowAll] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -61,11 +63,11 @@ export const SignatureCollectionMobile = () => {
         <p className="text-[#E8D3A2] tracking-[0.3em] text-[10px] uppercase font-semibold mb-5 opacity-90">
           Signature Collection
         </p>
-        <h2 className="text-white text-3xl font-light tracking-tight mb-5 leading-snug">
-          Discover Our Finest <br /> Fragrances
+        <h2 className="text-white text-3xl font-light tracking-tight mb-5 leading-snug whitespace-pre-line">
+          {config.collections.signature.title}
         </h2>
-        <p className="text-white/60 text-[14px] font-light leading-relaxed max-w-[280px] mx-auto">
-          Meticulously crafted masterpieces designed to evoke an unforgettable presence.
+        <p className="text-white/60 text-[14px] font-light leading-relaxed max-w-[280px] mx-auto whitespace-pre-line">
+          {config.collections.signature.description}
         </p>
       </div>
 

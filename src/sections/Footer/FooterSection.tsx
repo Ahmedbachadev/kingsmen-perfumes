@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useCMSContext } from '../../contexts/CMSContext';
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
@@ -73,6 +73,7 @@ const Particles = () => {
 };
 
 export const FooterSection = () => {
+  const { config } = useCMSContext();
   const containerRef = useRef<HTMLElement>(null);
   const slabRef = useRef<HTMLDivElement>(null);
   
@@ -131,8 +132,8 @@ export const FooterSection = () => {
         transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
         className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden"
       >
-        <h1 className="font-serif text-[#FDFBF7] text-[18vw] leading-none tracking-tight opacity-[0.04] whitespace-nowrap select-none">
-          KINGSMEN
+        <h1 className="font-serif text-[#FDFBF7] text-[18vw] leading-none tracking-tight opacity-[0.04] whitespace-nowrap select-none uppercase">
+          {config.footer.companyName.split(' ')[0]}
         </h1>
       </motion.div>
 
@@ -190,19 +191,30 @@ export const FooterSection = () => {
               className="flex flex-col items-center mb-6"
             >
               <span className="font-serif text-4xl md:text-5xl text-[#FDFBF7] tracking-widest uppercase mb-1">
-                Kingsmen
+                {config.footer.companyName}
               </span>
             </motion.div>
 
-            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 1 }}
-              className="text-[#A3A3A3] font-sans text-sm md:text-base leading-relaxed font-light text-center max-w-lg mb-12"
+              className="text-[#A3A3A3] font-sans text-sm md:text-base leading-relaxed font-light text-center max-w-lg mb-4"
             >
               Crafting timeless fragrances for individuals who appreciate confidence, elegance and lasting impressions.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 1.1 }}
+              className="text-[#A3A3A3] font-sans text-xs md:text-sm leading-relaxed font-light text-center max-w-lg mb-12"
+            >
+              {config.footer.address}<br />
+              <a href={`mailto:${config.footer.email}`} className="hover:text-[#FDFBF7] transition-colors">{config.footer.email}</a><br />
+              <a href={`tel:${config.footer.phone}`} className="hover:text-[#FDFBF7] transition-colors">{config.footer.phone}</a>
             </motion.p>
 
             {/* Social Header */}
@@ -213,20 +225,22 @@ export const FooterSection = () => {
               transition={{ duration: 1, delay: 1.2 }}
               className="text-[10px] tracking-[0.3em] uppercase text-[#EBD5B3] font-light mb-6"
             >
-              Follow Kingsmen
+              Follow {config.footer.companyName.split(' ')[0]}
             </motion.span>
 
             {/* Social Icons */}
             <div className="flex gap-8 mb-16">
               {[
-                { Icon: InstagramIcon, label: 'Instagram' },
-                { Icon: TikTokIcon, label: 'TikTok' },
-                { Icon: FacebookIcon, label: 'Facebook' },
-                { Icon: WhatsAppIcon, label: 'WhatsApp' }
+                { Icon: InstagramIcon, label: 'Instagram', url: config.footer.socialLinks.instagram },
+                { Icon: TikTokIcon, label: 'TikTok', url: config.footer.socialLinks.tiktok },
+                { Icon: FacebookIcon, label: 'Facebook', url: config.footer.socialLinks.facebook },
+                { Icon: WhatsAppIcon, label: 'WhatsApp', url: config.footer.phone ? `https://wa.me/${config.footer.phone.replace(/\D/g, '')}` : '#' }
               ].map((social, i) => (
                 <motion.a
                   key={social.label}
-                  href={`#${social.label.toLowerCase()}`}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -273,7 +287,7 @@ export const FooterSection = () => {
             >
               <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgba(235,213,179,0.2)] to-transparent mb-6" />
               <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4 px-4 text-[#888888] font-sans text-[10px] tracking-wider uppercase font-light">
-                <span>&copy; {new Date().getFullYear()} Kingsmen. All Rights Reserved.</span>
+                <span>{config.footer.copyright}</span>
                 <span>Designed with timeless craftsmanship.</span>
               </div>
             </motion.div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,7 @@ const getFramePath = (index: number) => {
 };
 
 export const GentlemenSequence: React.FC = () => {
+  const { config } = useCMSContext();
   const [loadedCount, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -114,15 +116,11 @@ export const GentlemenSequence: React.FC = () => {
                   <motion.p style={{ opacity: labelOpacity, y: labelY }} className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-[#CFA44F] font-light mb-6 md:mb-8">
                     Gentlemen Collection
                   </motion.p>
-                  <motion.h2 style={{ opacity: headlineOpacity, y: headlineY }} className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10">
-                    Crafted for <br />
-                    Modern <br />
-                    Gentlemen
+                  <motion.h2 style={{ opacity: headlineOpacity, y: headlineY }} className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10 whitespace-pre-line">
+                    {config.collections.gentlemen.title}
                   </motion.h2>
-                  <motion.p style={{ opacity: paragraphOpacity, y: paragraphY }} className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md">
-                    Discover the essence of sophisticated masculinity.
-                    A bold curation of deep woods, refined spices, and confident accords
-                    designed to command the room and leave an unforgettable signature.
+                  <motion.p style={{ opacity: paragraphOpacity, y: paragraphY }} className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md whitespace-pre-line">
+                    {config.collections.gentlemen.description}
                   </motion.p>
                   <div style={{ opacity: buttonOpacity, transform: `translateY(${buttonY}px)` }}>
                     <button className="group relative px-10 py-5 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:bg-white/[0.1] hover:border-white/20 text-[#FDFBF7] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">

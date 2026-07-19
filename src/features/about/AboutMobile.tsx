@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const AboutMobile = () => {
+  const { config } = useCMSContext();
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -224,17 +226,16 @@ export const AboutMobile = () => {
           
           <h2 
             ref={headingRef}
-            className="text-[34px] font-light leading-[1.15] mb-5 tracking-tight text-white/95"
+            className="text-[34px] font-light leading-[1.15] mb-5 tracking-tight text-white/95 whitespace-pre-line"
           >
-            Crafted With Purpose.<br />
-            Designed To Leave A Legacy.
+            {config.about.title}
           </h2>
           
           <p 
             ref={descRef}
-            className="text-white/70 font-light text-[15px] leading-relaxed max-w-sm"
+            className="text-white/70 font-light text-[15px] leading-relaxed max-w-sm whitespace-pre-line"
           >
-            Kingsmen is built on the belief that fragrance is more than a scent. It is identity, confidence, presence, and memory.
+            {config.about.description}
           </p>
         </div>
       </div>
@@ -242,38 +243,21 @@ export const AboutMobile = () => {
       {/* 2. BRAND VALUE CARDS SECTION */}
       <div className="relative z-20 bg-[#0a0a0a] px-6 pt-16 pb-32">
         <div ref={cardsRef} className="w-full space-y-5">
-          {/* Card 1 */}
-          <div className="p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.08] shadow-2xl flex flex-col items-start relative overflow-hidden">
-            <div className="w-10 h-10 mb-6 rounded-full bg-black/40 flex items-center justify-center border border-white/10 shadow-inner">
-              <span className="text-[#E8D3A2] text-lg">✦</span>
-            </div>
-            <h3 className="text-[18px] text-white/90 font-medium mb-3 tracking-wide">Heritage</h3>
-            <p className="text-[15px] text-white/50 font-light leading-relaxed">
-              Timeless techniques merged with modern sophistication.
-            </p>
-          </div>
-
-          {/* Card 2 */}
-          <div className="p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.08] shadow-2xl flex flex-col items-start relative overflow-hidden">
-            <div className="w-10 h-10 mb-6 rounded-full bg-black/40 flex items-center justify-center border border-white/10 shadow-inner">
-              <span className="text-[#E8D3A2] text-lg">◈</span>
-            </div>
-            <h3 className="text-[18px] text-white/90 font-medium mb-3 tracking-wide">Purity</h3>
-            <p className="text-[15px] text-white/50 font-light leading-relaxed">
-              Exclusively sourced raw materials of the highest grade.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.08] shadow-2xl flex flex-col items-start relative overflow-hidden">
-            <div className="w-10 h-10 mb-6 rounded-full bg-black/40 flex items-center justify-center border border-white/10 shadow-inner">
-              <span className="text-[#E8D3A2] text-lg">✧</span>
-            </div>
-            <h3 className="text-[18px] text-white/90 font-medium mb-3 tracking-wide">Legacy</h3>
-            <p className="text-[15px] text-white/50 font-light leading-relaxed">
-              Scents that linger in memory long after you depart.
-            </p>
-          </div>
+          {config.about.features.map((feature, index) => {
+            const icons = ['✦', '◈', '✧'];
+            const icon = icons[index % icons.length];
+            return (
+              <div key={feature.id} className="p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.08] shadow-2xl flex flex-col items-start relative overflow-hidden">
+                <div className="w-10 h-10 mb-6 rounded-full bg-black/40 flex items-center justify-center border border-white/10 shadow-inner">
+                  <span className="text-[#E8D3A2] text-lg">{icon}</span>
+                </div>
+                <h3 className="text-[18px] text-white/90 font-medium mb-3 tracking-wide">{feature.title}</h3>
+                <p className="text-[15px] text-white/50 font-light leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

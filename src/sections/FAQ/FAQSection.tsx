@@ -1,33 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Reusable FAQ Data Structure
-const faqs = [
-  {
-    question: "How long do Kingsmen fragrances last?",
-    answer: "Our extraits de parfum are formulated with a high concentration of premium oils, ensuring a lasting presence of 12 to 18 hours on the skin, and longer on garments."
-  },
-  {
-    question: "Are your fragrances suitable for everyday wear?",
-    answer: "While profoundly rich, each scent is meticulously balanced to seamlessly transition from daily engagements to exclusive evening occasions."
-  },
-  {
-    question: "Are Kingsmen perfumes inspired by designer fragrances?",
-    answer: "No. Each Kingsmen creation is an original masterpiece, conceptualized and blended from scratch to offer a completely unique signature."
-  },
-  {
-    question: "How should I store my fragrance?",
-    answer: "To preserve its integrity and depth, store your bottle in a cool, dark environment away from direct sunlight and extreme temperature fluctuations."
-  },
-  {
-    question: "Do you offer nationwide delivery?",
-    answer: "Yes. We provide secure, expedited shipping across the nation, ensuring your signature scent arrives in pristine condition."
-  },
-  {
-    question: "How can I choose the right fragrance?",
-    answer: "Consider the atmosphere you wish to command. Explore our detailed scent profiles or reach out to our bespoke concierge for a personalized recommendation."
-  }
-];
+import { useCMSContext } from '../../contexts/CMSContext';
 
 // Generates simple floating particles (reused aesthetic)
 const Particles = () => {
@@ -76,7 +50,12 @@ const Particles = () => {
 };
 
 export const FAQSection = () => {
+  const { config } = useCMSContext();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const activeFaqs = config.faq
+    .filter(item => item.isActive)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -117,7 +96,7 @@ export const FAQSection = () => {
 
         {/* Accordion List */}
         <div className="w-full flex flex-col">
-          {faqs.map((faq, index) => {
+          {activeFaqs.map((faq, index) => {
             const isOpen = openIndex === index;
             
             return (
@@ -174,7 +153,7 @@ export const FAQSection = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: faqs.length * 0.1 }}
+            transition={{ duration: 0.8, delay: activeFaqs.length * 0.1 }}
             className="w-full h-px bg-[#EBD5B3]/20" 
           />
         </div>

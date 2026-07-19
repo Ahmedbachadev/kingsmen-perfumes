@@ -1,12 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCMSContext } from '../../../contexts/CMSContext';
 
 interface HeroMobileOverlayProps {
   isSequenceComplete: boolean;
 }
 
 export const HeroMobileOverlay = ({ isSequenceComplete }: HeroMobileOverlayProps) => {
-  const headline = "Master\nthe Art of\nInfluence";
-  const headlineLines = headline.split('\n');
+  const { config } = useCMSContext();
+  const headlineLines = config.hero.title.split('\n');
 
   return (
     <AnimatePresence>
@@ -54,10 +55,9 @@ export const HeroMobileOverlay = ({ isSequenceComplete }: HeroMobileOverlayProps
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[#F8F5F1]/80 text-[16px] leading-[1.6] font-light max-w-[90%]"
+              className="text-[#F8F5F1]/80 text-[16px] leading-[1.6] font-light max-w-[90%] whitespace-pre-line"
             >
-              A captivating signature scent crafted for those who command the room. 
-              Experience the pinnacle of olfactory luxury.
+              {config.hero.subtitle}
             </motion.p>
 
             {/* Buttons */}
@@ -68,19 +68,19 @@ export const HeroMobileOverlay = ({ isSequenceComplete }: HeroMobileOverlayProps
               className="flex flex-col gap-4 mt-2"
             >
               {/* Primary Button */}
-              <button className="group relative w-full px-6 py-4 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
+              <a href={config.hero.primaryButtonLink} className="group relative w-full px-6 py-4 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
                 <span className="relative z-10 text-[13px] uppercase tracking-[0.15em] font-medium drop-shadow-md">
-                  Explore Collection
+                  {config.hero.primaryButtonText}
                 </span>
-              </button>
+              </a>
 
               {/* Secondary Button */}
-              <button className="group relative w-full px-6 py-4 rounded-full bg-transparent backdrop-blur-md border border-transparent text-[#F8F5F1]/80 transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
+              <a href={config.hero.secondaryButtonLink} className="group relative w-full px-6 py-4 rounded-full bg-transparent backdrop-blur-md border border-transparent text-[#F8F5F1]/80 transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
                 <span className="relative z-10 text-[13px] uppercase tracking-[0.15em] font-medium drop-shadow-sm">
-                  Discover Sky-Fall
+                  {config.hero.secondaryButtonText}
                 </span>
-              </button>
+              </a>
             </motion.div>
           </div>
         </motion.div>

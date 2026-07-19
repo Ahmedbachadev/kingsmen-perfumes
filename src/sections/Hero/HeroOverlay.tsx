@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useCMSContext } from '../../../contexts/CMSContext';
 
 export const HeroOverlay = () => {
+  const { config } = useCMSContext();
   // Parallax setup
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -29,9 +31,7 @@ export const HeroOverlay = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Refined luxury copy
-  const headline = "Master\nthe Art of\nInfluence";
-  const headlineLines = headline.split('\n');
+  const headlineLines = config.hero.title.split('\n');
 
   return (
     <div id="hero" className="absolute inset-0 w-full h-screen pointer-events-none z-10 overflow-hidden">
@@ -78,10 +78,9 @@ export const HeroOverlay = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[#F8F5F1]/80 text-[18px] md:text-[20px] leading-[1.7] max-w-[480px] font-light"
+          className="text-[#F8F5F1]/80 text-[18px] md:text-[20px] leading-[1.7] max-w-[480px] font-light whitespace-pre-line"
         >
-          A captivating signature scent crafted for those who command the room. 
-          Experience the pinnacle of olfactory luxury.
+          {config.hero.subtitle}
         </motion.p>
 
         {/* Buttons */}
@@ -92,24 +91,24 @@ export const HeroOverlay = () => {
           className="flex items-center gap-8 mt-2"
         >
           {/* Primary Button */}
-          <button className="group relative px-8 py-4 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:bg-white/[0.1] hover:border-white/20 text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
+          <a href={config.hero.primaryButtonLink} className="group relative px-8 py-4 rounded-full bg-white/[0.05] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:bg-white/[0.1] hover:border-white/20 text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
             {/* Glossy top edge highlight */}
             <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
             {/* Liquid glass subtle reflection overlay */}
             <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <span className="relative z-10 text-[13px] uppercase tracking-[0.15em] font-medium drop-shadow-md">
-              Explore Collection
+              {config.hero.primaryButtonText}
             </span>
-          </button>
+          </a>
 
           {/* Secondary Button */}
-          <button className="group relative px-8 py-4 rounded-full bg-transparent backdrop-blur-md border border-transparent hover:bg-white/[0.03] hover:border-white/10 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] text-[#F8F5F1]/80 hover:text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
+          <a href={config.hero.secondaryButtonLink} className="group relative px-8 py-4 rounded-full bg-transparent backdrop-blur-md border border-transparent hover:bg-white/[0.03] hover:border-white/10 hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] text-[#F8F5F1]/80 hover:text-[#F8F5F1] transition-all duration-500 ease-out overflow-hidden flex items-center justify-center">
             {/* Glossy top edge highlight */}
             <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <span className="relative z-10 text-[13px] uppercase tracking-[0.15em] font-medium drop-shadow-sm">
-              Discover Sky-Fall
+              {config.hero.secondaryButtonText}
             </span>
-          </button>
+          </a>
         </motion.div>
       </motion.div>
 

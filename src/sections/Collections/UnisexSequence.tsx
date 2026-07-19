@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const UnisexSequence: React.FC = () => {
+  const { config } = useCMSContext();
   const [loadedCount, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -183,19 +185,16 @@ export const UnisexSequence: React.FC = () => {
 
                   <h2
                     style={{ opacity: headlineOpacity, transform: `translateY(${headlineY}px)` }}
-                    className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10"
+                    className="text-4xl md:text-6xl lg:text-7xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-8 md:mb-10 whitespace-pre-line"
                   >
-                    Crafted <br />
-                    Beyond <br />
-                    Labels
+                    {config.collections.unisex.title}
                   </h2>
 
                   <p
                     style={{ opacity: paragraphOpacity, transform: `translateY(${paragraphY}px)` }}
-                    className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md"
+                    className="text-[#A3A3A3] font-sans text-base md:text-lg leading-relaxed font-light mb-10 max-w-md whitespace-pre-line"
                   >
-                    Experience a fragrance unbound by convention. A harmonious blend of crisp botanicals,
-                    warm resins, and timeless woods that celebrates shared elegance and effortless sophistication.
+                    {config.collections.unisex.description}
                   </p>
 
                   <div style={{ opacity: buttonOpacity, transform: `translateY(${buttonY}px)` }}>

@@ -2,8 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { GlassButton } from '../shared/GlassButton';
 import { MobileProductCarousel } from './MobileProductCarousel';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 export const MobileUnisexContent: React.FC = () => {
+  const { config } = useCMSContext();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -50,17 +52,16 @@ export const MobileUnisexContent: React.FC = () => {
       
       <motion.h2
         variants={itemVariants}
-        className="text-[26px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.15] tracking-tight mb-4"
+        className="text-[26px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.15] tracking-tight mb-4 whitespace-pre-line"
       >
-        Crafted<br />
-        For Every Presence.
+        {config.collections.unisex.title}
       </motion.h2>
 
       <motion.p
         variants={itemVariants}
-        className="text-[#A3A3A3] font-sans text-[11px] sm:text-xs leading-relaxed font-light mb-6 max-w-[220px]"
+        className="text-[#A3A3A3] font-sans text-[11px] sm:text-xs leading-relaxed font-light mb-6 max-w-[220px] whitespace-pre-line"
       >
-        A timeless collection designed for individuals who value elegance, confidence and individuality.
+        {config.collections.unisex.description}
       </motion.p>
 
       <motion.div variants={itemVariants} className="w-[100vw] sm:w-[90vw] -mx-4 sm:-mx-12 mb-6">

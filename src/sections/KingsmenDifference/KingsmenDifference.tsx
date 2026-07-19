@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 const columns = [
   {
@@ -20,6 +20,7 @@ const columns = [
 ];
 
 export const KingsmenDifference: React.FC = () => {
+  const { config } = useCMSContext();
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -145,7 +146,7 @@ export const KingsmenDifference: React.FC = () => {
           {/* Subtle top divider */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#D4AF37]/0 via-[#D4AF37]/20 to-[#D4AF37]/0 hidden md:block" />
           
-          {columns.map((col, index) => (
+          {config.about.features.map((col, index) => (
             <motion.div 
               key={index}
               initial="hidden"
@@ -176,7 +177,7 @@ export const KingsmenDifference: React.FC = () => {
                   willChange: 'transform',
                 }}
               >
-                {col.number}
+                {`0${index + 1}`.slice(-2)}
               </motion.div>
 
               <h3 className="text-xl md:text-2xl font-serif text-[#FDFBF7] mb-6 relative z-10">

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../../contexts/CartContext';
 
 export function CartSummary() {
@@ -9,10 +10,11 @@ export function CartSummary() {
     return total + price * item.quantity;
   }, 0);
 
+  const navigate = useNavigate();
+
   const handleCheckout = () => {
-    // Placeholder for real checkout logic.
-    // Close the cart right away.
     closeCart();
+    navigate('/checkout');
   };
 
   return (

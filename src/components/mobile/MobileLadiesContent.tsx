@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GlassButton } from '../shared/GlassButton';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 export const MobileLadiesContent: React.FC = () => {
+  const { config } = useCMSContext();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -43,19 +45,16 @@ export const MobileLadiesContent: React.FC = () => {
       
       <motion.h2
         variants={itemVariants}
-        className="text-[22px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-4 sm:mb-5"
+        className="text-[22px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.1] tracking-tight mb-4 sm:mb-5 whitespace-pre-line"
       >
-        Elegance,<br />
-        Without <br className="sm:hidden" />
-        Compromise.
+        {config.collections.ladies.title}
       </motion.h2>
 
       <motion.p
         variants={itemVariants}
-        className="text-[#A3A3A3] font-sans text-[10px] sm:text-[11px] leading-relaxed font-light mb-6 sm:mb-8 max-w-[170px] sm:max-w-[200px]"
+        className="text-[#A3A3A3] font-sans text-[10px] sm:text-[11px] leading-relaxed font-light mb-6 sm:mb-8 max-w-[170px] sm:max-w-[200px] whitespace-pre-line"
       >
-        Crafted for women who embody confidence, grace and timeless sophistication.<br className="hidden sm:block" />
-        Every fragrance is designed to leave a lasting impression.
+        {config.collections.ladies.description}
       </motion.p>
 
       <motion.div variants={itemVariants}>
