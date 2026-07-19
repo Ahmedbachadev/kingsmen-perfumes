@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --nav-charcoal: rgba(18, 18, 20, 0.45);
+  --nav-charcoal-scrolled: rgba(10, 10, 12, 0.75);
+  --nav-border: rgba(220, 195, 140, 0.12);
+  --nav-text: #FDFBF7;
+  --nav-hover: #E8D3A2;
+  --nav-active: #CFA44F;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Liquid Glass Foundation */
+.liquid-glass {
+  background: var(--nav-charcoal);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid var(--nav-border);
+  /* Ambient outer shadow and slight inner shadow for depth */
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  will-change: transform, backdrop-filter, background, box-shadow;
+}
+
+/* Specular Highlight on Glass */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: specular 10s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes specular {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
+}
+
+/* Subtle floating logo animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0px); }
+}
+
+.logo-float {
+  animation: float 6s ease-in-out infinite;
+}
+
