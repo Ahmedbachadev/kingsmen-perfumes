@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useCMSContext } from "../../contexts/CMSContext";
+import { useCMSContext } from '../../../contexts/CMSContext';
 
 export const HeroOverlay = () => {
   const { config } = useCMSContext();
@@ -41,37 +41,33 @@ export const HeroOverlay = () => {
       {/* Main Content Area */}
       <motion.div
         style={{ x, y }}
-        className="absolute bottom-[14vh] left-[7vw] max-w-[520px] pointer-events-auto flex flex-col gap-8"
+        className="absolute bottom-[14vh] left-[7vw] max-w-[900px] pointer-events-auto flex flex-col gap-8"
       >
         {/* Headline */}
-        <h1 
+        <h1
           className="text-[#F8F5F1] font-bold tracking-tight"
-          style={{ 
-            fontSize: 'clamp(72px, 8vw, 108px)', 
+          style={{
+            fontSize: 'clamp(72px, 8vw, 108px)',
             lineHeight: 0.92,
             letterSpacing: '-0.02em'
           }}
         >
           {headlineLines.map((line, lineIndex) => (
-            <span key={lineIndex} className="block overflow-hidden pb-2" style={{ overflowWrap: 'break-word' }}>
-              {line.split(' ').map((word, wordIndex) => (
-                <span key={`${lineIndex}-${wordIndex}`} className="inline-block whitespace-nowrap mr-[0.3em]">
-                  {word.split('').map((char, charIndex) => (
-                    <motion.span
-                      key={`${lineIndex}-${wordIndex}-${charIndex}`}
-                      className="inline-block"
-                      initial={{ y: '100%', opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{
-                        duration: 1,
-                        ease: [0.16, 1, 0.3, 1],
-                        delay: 0.2 + (lineIndex * 0.1) + (wordIndex * 0.05) + (charIndex * 0.03),
-                      }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </span>
+            <span key={lineIndex} className="block overflow-hidden pb-2">
+              {line.split('').map((char, charIndex) => (
+                <motion.span
+                  key={`${lineIndex}-${charIndex}`}
+                  className="inline-block"
+                  initial={{ y: '100%', opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 1,
+                    ease: [0.16, 1, 0.3, 1], // Custom cinematic easing
+                    delay: 0.2 + (lineIndex * 0.1) + (charIndex * 0.03),
+                  }}
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </motion.span>
               ))}
             </span>
           ))}
