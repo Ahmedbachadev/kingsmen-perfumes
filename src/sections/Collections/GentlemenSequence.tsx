@@ -86,7 +86,18 @@ export const GentlemenSequence: React.FC = () => {
           }
         }
       }
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let k = frameIndex + 1; k < TOTAL_FRAMES; k++) {
+          if (images[k] && images[k].complete && images[k].naturalWidth > 0) {
+            img = images[k];
+            break;
+          }
+        }
+      }
+
       if (!img || !img.complete || img.naturalWidth === 0) return;
+      if ((img as any) === (render as any)._lastImg) return;
+      (render as any)._lastImg = img;
       const cw = canvas.width; const ch = canvas.height;
       const iw = img.naturalWidth; const ih = img.naturalHeight;
       const scale = Math.max(cw / iw, ch / ih);
@@ -99,6 +110,13 @@ export const GentlemenSequence: React.FC = () => {
     const handleResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; render(); };
     handleResize();
     window.addEventListener('resize', handleResize);
+
+    let animationFrameId: number;
+    const tick = () => {
+      render();
+      animationFrameId = requestAnimationFrame(tick);
+    };
+    tick();
 
     const st = ScrollTrigger.create({
       trigger: containerRef.current,
@@ -116,6 +134,7 @@ export const GentlemenSequence: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       st.kill();
+      cancelAnimationFrame(animationFrameId);
     };
   }, [isLoaded]);
 

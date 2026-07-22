@@ -75,7 +75,18 @@ export const FrameSequence = () => {
         }
       }
 
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let k = frameIndex + 1; k < TOTAL_FRAMES; k++) {
+          if (images[k] && images[k].complete && images[k].naturalWidth > 0) {
+            img = images[k];
+            break;
+          }
+        }
+      }
+
       if (!img || !img.complete || img.naturalWidth === 0) return;
+      if ((img as any) === (render as any)._lastImg) return;
+      (render as any)._lastImg = img;
 
       const cw = canvas.width;
       const ch = canvas.height;
@@ -102,6 +113,13 @@ export const FrameSequence = () => {
     handleResize(); // Size on load
     window.addEventListener('resize', handleResize);
 
+    let animationFrameId: number;
+    const tick = () => {
+      render();
+      animationFrameId = requestAnimationFrame(tick);
+    };
+    tick();
+
     // Setup GSAP
     const st = ScrollTrigger.create({
       trigger: containerRef.current,
@@ -120,6 +138,7 @@ export const FrameSequence = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       st.kill();
+      cancelAnimationFrame(animationFrameId);
     };
   }, [isLoaded]);
 

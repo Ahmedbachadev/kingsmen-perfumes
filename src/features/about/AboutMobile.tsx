@@ -10,7 +10,7 @@ const FRAME_STEP = 3;
 const TOTAL_FRAMES = Math.ceil(_TOTAL_FRAMES / FRAME_STEP);
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
-const FRAME_EXTENSION = '.png';
+const FRAME_EXTENSION = '.webp';
 const BASE_PATH = '/sequences/about/mobile/';
 
 const getFramePath = (index: number) => {

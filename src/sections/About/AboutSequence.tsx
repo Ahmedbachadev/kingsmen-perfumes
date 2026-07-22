@@ -83,7 +83,18 @@ export const AboutSequence = () => {
         }
       }
 
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let k = frameIndex + 1; k < TOTAL_FRAMES; k++) {
+          if (images[k] && images[k].complete && images[k].naturalWidth > 0) {
+            img = images[k];
+            break;
+          }
+        }
+      }
+
       if (!img || !img.complete || img.naturalWidth === 0) return;
+      if ((img as any) === (render as any)._lastImg) return;
+      (render as any)._lastImg = img;
 
       const cw = canvas.width;
       const ch = canvas.height;
@@ -109,6 +120,13 @@ export const AboutSequence = () => {
 
     handleResize();
     window.addEventListener('resize', handleResize);
+
+    let animationFrameId: number;
+    const tick = () => {
+      render();
+      animationFrameId = requestAnimationFrame(tick);
+    };
+    tick();
 
     // Setup GSAP for Cinematic Entrance Transition (Canvas overlay)
     const transitionTl = gsap.timeline({
@@ -165,6 +183,7 @@ export const AboutSequence = () => {
       transitionTl.kill();
       contentTl.kill();
       st.kill();
+      cancelAnimationFrame(animationFrameId);
     };
   }, [isLoaded]);
 
