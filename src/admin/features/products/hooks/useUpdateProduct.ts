@@ -75,11 +75,20 @@ export const useUpdateProduct = () => {
 
       // 6. Link temporary/new images to the product
       if (data.images.length > 0) {
-        const { updateImageMetadata } = await import('../media/services/mediaService');
+        const { updateImageMetadata, saveImageMetadata } = await import('../media/services/mediaService');
         await Promise.all(
-          data.images.map(img => 
-            updateImageMetadata(img.id, { product_id: id })
-          )
+          data.images.map(img => {
+            if (img.id.startsWith('local-') || img.id.startsWith('temp-')) {
+              return saveImageMetadata({
+                product_id: id,
+                url: img.url,
+                sort_order: img.sort_order,
+                alt_text: img.alt_text,
+                is_thumbnail: img.is_thumbnail
+              });
+            }
+            return updateImageMetadata(img.id, { product_id: id });
+          })
         );
       }
 
