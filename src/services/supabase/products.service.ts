@@ -91,7 +91,7 @@ export const ProductsService = {
     const { data: newProduct, error: productError } = await supabase
       .from('products')
       .insert(product as any)
-      .select()
+      .select('id')
       .single();
 
     if (productError) throw productError;
@@ -132,7 +132,7 @@ export const ProductsService = {
       .from('products')
       .update(updates as any)
       .eq('id', id)
-      .select()
+      .select('id')
       .single();
 
     if (error) throw error;
