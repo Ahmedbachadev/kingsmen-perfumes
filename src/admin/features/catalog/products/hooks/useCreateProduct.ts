@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { ProductsService } from '../../../../../services/supabase/products.service';
 import { DEFAULT_FORM_DATA } from '../types/product-form.types';
 import type { ProductFormData, ProductFormErrors } from '../types/product-form.types';
@@ -64,7 +65,7 @@ export function useCreateProduct() {
           ...prev,
           images: prev.images.filter(i => i.id !== img.id)
         }));
-        alert('Failed to upload an image. Please try again.');
+        toast.error('Failed to upload image. Please try again.');
       }
     }
   }, []);
@@ -121,7 +122,7 @@ export function useCreateProduct() {
 
     // Ensure all uploads are finished
     if (finalData.images.some(img => img.isUploading)) {
-      alert("Please wait for all images to finish uploading.");
+      toast.error('Please wait for all images to finish uploading.');
       return false;
     }
 
@@ -173,14 +174,12 @@ export function useCreateProduct() {
       await ProductsService.createProduct(productInsert, variantsInsert, imagesInsert);
       
       setHasUnsavedChanges(false);
-      
-      // Use native browser alert or replace with toast system
-      alert(`Product "${finalData.name}" created successfully!`);
+      toast.success(`"${finalData.name}" created successfully!`);
       navigate('/admin/catalog/products');
       return true;
     } catch (error: any) {
       console.error('Failed to create product:', error);
-      alert(error.message || 'Failed to create product. Please try again.');
+      toast.error(error.message || 'Failed to create product. Please try again.');
       return false;
     } finally {
       setIsSubmitting(false);

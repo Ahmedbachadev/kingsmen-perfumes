@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { 
  LayoutDashboard, 
  Bell, 
@@ -173,5 +174,27 @@ export function AdminLayout() {
  </div>
  </main>
  </div>
+ <Toaster
+   position="bottom-right"
+   toastOptions={{
+     duration: 4000,
+     style: {
+       borderRadius: '12px',
+       background: '#1e293b',
+       color: '#f8fafc',
+       fontSize: '14px',
+       fontWeight: '500',
+       padding: '12px 16px',
+       boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+     },
+     success: {
+       iconTheme: { primary: '#22c55e', secondary: '#f8fafc' },
+     },
+     error: {
+       iconTheme: { primary: '#ef4444', secondary: '#f8fafc' },
+       duration: 6000,
+     },
+   }}
+ />
  );
 }

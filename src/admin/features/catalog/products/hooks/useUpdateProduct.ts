@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { ProductsService, type ProductWithRelations } from '../../../../../services/supabase/products.service';
 import type { ProductFormData, ProductFormErrors } from '../types/product-form.types';
 import { validateProductForm } from '../validation/productSchema';
@@ -204,16 +205,11 @@ export function useUpdateProduct(product: ProductWithRelations) {
       await ProductsService.updateProduct(product.id, productUpdate, [variantData], imagesData);
       
       setHasUnsavedChanges(false);
-      
-      // Add visual feedback
-      alert(`Product "${finalData.name}" updated successfully!`);
-      // Since it's Edit mode, we don't strictly need to navigate away, 
-      // but maybe we just remain on the page or redirect based on user preference.
-      // We will remain on the page as requested by "Remain on the same page".
+      toast.success(`"${finalData.name}" saved successfully!`);
       return true;
     } catch (error: any) {
       console.error('Failed to update product:', error);
-      alert(error.message || 'Failed to update product. Please try again.');
+      toast.error(error.message || 'Failed to update product. Please try again.');
       return false;
     } finally {
       setIsSubmitting(false);

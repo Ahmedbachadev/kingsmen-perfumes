@@ -100,10 +100,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     if (isDirty) {
       if (window.confirm("You have unsaved changes. Leave without saving?")) {
         setIsDirty(false);
-        navigate('/admin/products');
+        navigate('/admin/catalog/products');
       }
     } else {
-      navigate('/admin/products');
+      navigate('/admin/catalog/products');
     }
   };
 
