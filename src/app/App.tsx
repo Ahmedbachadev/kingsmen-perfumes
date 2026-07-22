@@ -7,8 +7,12 @@ import { CMSProvider } from '../contexts/CMSContext';
 
 export default function App() {
   return (
-    <ToastProvider>
-      <RouterProvider router={router} />
-    </ToastProvider>
+    <AuthProvider>
+      <CMSProvider>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </CMSProvider>
+    </AuthProvider>
   );
 }
