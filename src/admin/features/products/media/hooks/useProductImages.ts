@@ -60,16 +60,29 @@ export const useProductImages = (productId?: string) => {
         // 2. Determine if it should be featured
         const isFeatured = images.length === 0 && i === 0;
 
-        // 3. Save metadata
-        // For new products that aren't saved yet, productId might be empty.
-        // In that case, we can keep 'temp' as productId and update it later when saving the product.
-        const meta = await mediaService.saveImageMetadata({
-          product_id: productId || 'temp',
-          url: url,
-          sort_order: startingOrder + i,
-          alt_text: file.name,
-          is_thumbnail: isFeatured
-        });
+        // 3. Save metadata to DB only if we have a real product ID
+        let meta: ProductImage;
+        if (productId) {
+          meta = await mediaService.saveImageMetadata({
+            product_id: productId,
+            url: url,
+            sort_order: startingOrder + i,
+            alt_text: file.name,
+            is_thumbnail: isFeatured
+          });
+        } else {
+          // No product yet — keep a local-only record so the UI shows the image
+          // The actual DB insert happens when the product form is submitted
+          meta = {
+            id: `local-${Date.now()}-${i}`,
+            product_id: '',
+            url: url,
+            sort_order: startingOrder + i,
+            alt_text: file.name,
+            is_thumbnail: isFeatured,
+            created_at: new Date().toISOString(),
+          };
+        }
 
         newImages.push(meta);
       }
