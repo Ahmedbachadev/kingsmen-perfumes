@@ -1,4 +1,5 @@
 import { supabase } from '../../../../../lib/supabase';
+import imageCompression from 'browser-image-compression';
 import type { ProductImage } from '../../types/product';
 
 export const getProductImages = async (productId: string): Promise<ProductImage[]> => {
@@ -6,7 +7,7 @@ export const getProductImages = async (productId: string): Promise<ProductImage[
     .from('product_images')
     .select('*')
     .eq('product_id', productId)
-    .order('display_order', { ascending: true });
+    .order('sort_order', { ascending: true });
 
   if (error) {
     if (error.code === '42P01') {
@@ -19,13 +20,21 @@ export const getProductImages = async (productId: string): Promise<ProductImage[
 };
 
 export const uploadImageToStorage = async (file: File): Promise<string> => {
-  const fileExt = file.name.split('.').pop();
+  const options = {
+    maxSizeMB: 0.8, // 800 KB
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+  
+  const compressedFile = await imageCompression(file, options);
+  
+  const fileExt = compressedFile.name.split('.').pop() || 'jpg';
   const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
   const filePath = `product_images/${fileName}`;
 
   const { error: uploadError } = await supabase.storage
     .from('product-images')
-    .upload(filePath, file, {
+    .upload(filePath, compressedFile, {
       cacheControl: '3600',
       upsert: false
     });
@@ -89,13 +98,13 @@ export const updateImageMetadata = async (id: string, updates: Partial<ProductIm
   }
 };
 
-export const updateImageOrder = async (updates: { id: string; display_order: number }[]) => {
+export const updateImageOrder = async (updates: { id: string; sort_order: number }[]) => {
   try {
     // Supabase JS doesn't have bulk update easily out of the box using .update() for different rows
     // We can do it sequentially or use an RPC. For simplicity and since we have a small array:
     await Promise.all(
       updates.map(update => 
-        supabase.from('product_images').update({ display_order: update.display_order }).eq('id', update.id)
+        supabase.from('product_images').update({ sort_order: update.sort_order }).eq('id', update.id)
       )
     );
   } catch (error: any) {

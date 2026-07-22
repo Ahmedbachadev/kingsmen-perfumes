@@ -158,7 +158,7 @@ export function useCreateProduct() {
       const imagesInsert = finalData.images.map((img, index) => ({
         url: img.url,
         alt_text: finalData.name,
-        display_order: index,
+        sort_order: index,
         is_thumbnail: img.isThumbnail || index === 0
       }));
 

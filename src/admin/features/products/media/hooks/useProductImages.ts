@@ -66,7 +66,7 @@ export const useProductImages = (productId?: string) => {
         const meta = await mediaService.saveImageMetadata({
           product_id: productId || 'temp',
           image_url: url,
-          display_order: startingOrder + i,
+          sort_order: startingOrder + i,
           alt_text: file.name,
           is_featured: isFeatured
         });
@@ -113,11 +113,11 @@ export const useProductImages = (productId?: string) => {
 
   const reorderImages = async (newOrder: ProductImage[]) => {
     // Optimistic UI
-    const updatedImages = newOrder.map((img, idx) => ({ ...img, display_order: idx }));
+    const updatedImages = newOrder.map((img, idx) => ({ ...img, sort_order: idx }));
     setImages(updatedImages);
 
     try {
-      const updates = updatedImages.map(img => ({ id: img.id, display_order: img.display_order }));
+      const updates = updatedImages.map(img => ({ id: img.id, sort_order: img.sort_order }));
       await mediaService.updateImageOrder(updates);
     } catch (err: any) {
       console.error('Failed to reorder', err);

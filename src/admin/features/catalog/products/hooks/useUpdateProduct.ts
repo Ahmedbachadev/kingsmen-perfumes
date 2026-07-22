@@ -11,7 +11,7 @@ export function useUpdateProduct(product: ProductWithRelations) {
     slug: product.slug,
     short_description: product.short_description || '',
     description: product.description || '',
-    images: product.images?.sort((a, b) => (a.display_order || 0) - (b.display_order || 0)).map(img => ({
+    images: product.images?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)).map(img => ({
       id: img.id,
       url: img.url,
       isThumbnail: img.is_thumbnail || false
@@ -188,7 +188,7 @@ export function useUpdateProduct(product: ProductWithRelations) {
         id: img.id,
         url: img.url,
         alt_text: finalData.name,
-        display_order: index,
+        sort_order: index,
         is_thumbnail: img.isThumbnail || index === 0,
         product_id: product.id
       }));

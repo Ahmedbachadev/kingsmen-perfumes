@@ -54,7 +54,7 @@ export interface ProductImage {
   id: string;
   product_id: string;
   image_url: string;
-  display_order: number;
+  sort_order: number;
   alt_text: string | null;
   is_featured: boolean;
   created_at: string;

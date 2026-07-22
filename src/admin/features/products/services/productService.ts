@@ -111,9 +111,9 @@ export const getProductById = async (id: string) => {
 
   if (error) throw error;
   
-  // Sort images by display_order
-  if (data && data.images) {
-    data.images.sort((a: any, b: any) => a.display_order - b.display_order);
+  // Sort images by sort_order
+  if (data.images && Array.isArray(data.images)) {
+    data.images.sort((a: any, b: any) => a.sort_order - b.sort_order);
   }
   
   return data;
