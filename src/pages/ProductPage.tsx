@@ -89,8 +89,8 @@ export default function ProductPage() {
     >
       <ProductHero product={product} />
       <ProductStory product={product} />
-      <FragranceNotes />
-      <OccasionSection />
+      <FragranceNotes product={product} />
+      <OccasionSection product={product} />
       <ProductGallery />
       <ProductRecommendations />
     </motion.div>

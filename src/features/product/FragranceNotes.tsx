@@ -2,34 +2,33 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Heart, Anchor } from 'lucide-react';
 
-const notes = [
-  {
-    level: 'Top',
-    title: 'Top Notes',
-    icon: Sparkles,
-    ingredients: 'Bergamot, Pink Pepper & Italian Lemon',
-    desc: 'The vibrant opening spark that lingers gracefully upon first contact.',
-    color: 'from-[#D4AF37]/20 to-transparent'
-  },
-  {
-    level: 'Heart',
-    title: 'Heart Notes',
-    icon: Heart,
-    ingredients: 'Royal Oud, Bulgarian Rose & Velvet Iris',
-    desc: 'The rich, emotional core that unveils as the fragrance warms on skin.',
-    color: 'from-[#FFF8DC]/15 to-transparent'
-  },
-  {
-    level: 'Base',
-    title: 'Base Notes',
-    icon: Anchor,
-    ingredients: 'Amber Resin, Mysore Sandalwood & White Musk',
-    desc: 'The long-lasting foundation creating a profound, memorable aura.',
-    color: 'from-[#B8860B]/20 to-transparent'
-  }
-];
-
-export const FragranceNotes: React.FC = () => {
+export const FragranceNotes: React.FC<{ product?: any }> = ({ product }) => {
+  const notes = [
+    {
+      level: 'Top',
+      title: 'Top Notes',
+      icon: Sparkles,
+      ingredients: product?.top_notes || 'Bergamot, Pink Pepper & Italian Lemon',
+      desc: 'The vibrant opening spark that lingers gracefully upon first contact.',
+      color: 'from-[#D4AF37]/20 to-transparent'
+    },
+    {
+      level: 'Heart',
+      title: 'Heart Notes',
+      icon: Heart,
+      ingredients: product?.heart_notes || 'Royal Oud, Bulgarian Rose & Velvet Iris',
+      desc: 'The rich, emotional core that unveils as the fragrance warms on skin.',
+      color: 'from-[#FFF8DC]/15 to-transparent'
+    },
+    {
+      level: 'Base',
+      title: 'Base Notes',
+      icon: Anchor,
+      ingredients: product?.base_notes || 'Amber Resin, Mysore Sandalwood & White Musk',
+      desc: 'The long-lasting foundation creating a profound, memorable aura.',
+      color: 'from-[#B8860B]/20 to-transparent'
+    }
+  ];
   return (
     <section className="relative w-full py-16 md:py-24 bg-[#0a0a0a]">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">

@@ -18,6 +18,13 @@ export function mapToShopifyProduct(product: ProductWithRelations): ShopifyProdu
     collections: { 
       edges: product.collection ? [{ node: { id: 'col_1', title: product.collection.name, handle: product.collection.name.toLowerCase() } }] : [] 
     },
+    top_notes: product.top_notes,
+    heart_notes: product.heart_notes,
+    base_notes: product.base_notes,
+    longevity: product.longevity,
+    projection: product.projection,
+    recommended_seasons: product.recommended_seasons,
+    recommended_occasions: product.recommended_occasions,
   };
 }
 
