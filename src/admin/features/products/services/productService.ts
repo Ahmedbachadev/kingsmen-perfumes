@@ -75,7 +75,7 @@ export const createProduct = async (productData: Partial<Product>) => {
   const { data, error } = await supabase
     .from('products')
     .insert([productData])
-    .select()
+    .select('id')
     .single();
 
   if (error) throw error;
@@ -124,7 +124,7 @@ export const updateProduct = async (id: string, productData: Partial<Product>) =
     .from('products')
     .update(productData)
     .eq('id', id)
-    .select()
+    .select('id')
     .single();
 
   if (error) throw error;

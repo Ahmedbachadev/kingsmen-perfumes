@@ -50,7 +50,7 @@ export const useUpdateProduct = () => {
         stock: Number(data.stock),
         featured: data.featured,
         status: data.status,
-        category: data.category || null,
+        category_id: data.category || null,
         collection_id: data.collection_id || null,
         thumbnail: thumbnailUrl || null,
         seo_title: data.seo_title || null,
