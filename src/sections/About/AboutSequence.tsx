@@ -17,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const AboutSequence = () => {
+  const { config } = useCMSContext();
   const [, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
