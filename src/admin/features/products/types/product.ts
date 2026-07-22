@@ -53,7 +53,7 @@ export interface ProductStats {
 export interface ProductImage {
   id: string;
   product_id: string;
-  image_url: string;
+  url: string;
   sort_order: number;
   alt_text: string | null;
   is_featured: boolean;

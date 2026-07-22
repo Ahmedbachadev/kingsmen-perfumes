@@ -66,7 +66,7 @@ export const ImageCard: React.FC<Props> = ({
 
       {/* Image Area */}
       <div className="aspect-square relative group/img">
-        <ImagePreview src={image.image_url} alt={image.alt_text || 'Product image'} className="w-full h-full" />
+        <ImagePreview src={image.url} alt={image.alt_text || 'Product image'} className="w-full h-full" />
         
         {/* Overlay actions */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10">

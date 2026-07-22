@@ -65,7 +65,7 @@ export const useProductImages = (productId?: string) => {
         // In that case, we can keep 'temp' as productId and update it later when saving the product.
         const meta = await mediaService.saveImageMetadata({
           product_id: productId || 'temp',
-          image_url: url,
+          url: url,
           sort_order: startingOrder + i,
           alt_text: file.name,
           is_featured: isFeatured
@@ -92,7 +92,7 @@ export const useProductImages = (productId?: string) => {
 
     try {
       // 1. Delete from storage
-      await mediaService.deleteImageFromStorage(targetImage.image_url);
+      await mediaService.deleteImageFromStorage(targetImage.url);
       // 2. Delete metadata
       await mediaService.deleteImageMetadata(imageId);
       

@@ -35,7 +35,7 @@ export const useUpdateProduct = () => {
       let thumbnailUrl = '';
       if (data.images.length > 0) {
         const featuredImage = data.images.find(img => img.is_featured);
-        thumbnailUrl = featuredImage ? featuredImage.image_url : data.images[0].image_url;
+        thumbnailUrl = featuredImage ? featuredImage.url : data.images[0].url;
       }
 
       // 4. Prepare Payload for DB
