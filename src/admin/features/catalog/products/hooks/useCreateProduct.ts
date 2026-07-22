@@ -117,6 +117,7 @@ export function useCreateProduct() {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         element.focus();
       }
+      toast.error('Please fix the validation errors before saving.');
       return false;
     }
 

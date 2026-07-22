@@ -21,6 +21,7 @@ export const useCreateProduct = () => {
     const validationErrors = validateProduct(data);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      toast.error('Please fix the validation errors before saving.');
       setLoading(false);
       return false;
     }
