@@ -1,11 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GlassButton } from '../shared/GlassButton';
-<<<<<<< HEAD
-import { MobileProductCarousel } from './MobileProductCarousel';
-import { useCMSContext } from '../../contexts/CMSContext';
-=======
->>>>>>> 3fef0dc (production ready version with admin panel)
 
 export const MobileUnisexContent: React.FC = () => {
   const { config } = useCMSContext();
@@ -57,12 +52,8 @@ export const MobileUnisexContent: React.FC = () => {
         variants={itemVariants}
         className="text-[26px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.15] tracking-tight mb-4 whitespace-pre-line"
       >
-<<<<<<< HEAD
-        {config.collections.unisex.title}
-=======
         Crafted For<br />
         Every Presence.
->>>>>>> 3fef0dc (production ready version with admin panel)
       </motion.h2>
 
       <motion.p

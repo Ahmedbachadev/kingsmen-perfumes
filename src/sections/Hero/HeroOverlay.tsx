@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useCMSContext } from '../../../contexts/CMSContext';
+import { useCMSContext } from "../../contexts/CMSContext";
 
 export const HeroOverlay = () => {
   const { config } = useCMSContext();

@@ -1,4 +1,4 @@
-import { SiteConfig, defaultSiteConfig } from '../types/cms';
+import { type SiteConfig, defaultSiteConfig } from '../types/cms';
 
 const STORAGE_KEY_DRAFT = 'kingsmen_cms_draft';
 const STORAGE_KEY_PUBLISHED = 'kingsmen_cms_published';

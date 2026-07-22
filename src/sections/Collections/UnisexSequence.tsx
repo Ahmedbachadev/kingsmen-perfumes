@@ -17,12 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const UnisexSequence: React.FC = () => {
-<<<<<<< HEAD
-  const { config } = useCMSContext();
-  const [loadedCount, setLoadedCount] = useState(0);
-=======
   const [, setLoadedCount] = useState(0);
->>>>>>> 3fef0dc (production ready version with admin panel)
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SettingsProvider, useSettings } from '../context/SettingsContext';
 import { SettingsLayout } from '../SettingsLayout';
-import { PageLoader } from '../../../../components/shared/PageLoader';
+import { PageLoader } from '../../../../../components/shared/PageLoader';
 
 // Sections
 import { GeneralSettings } from '../components/sections/GeneralSettings';

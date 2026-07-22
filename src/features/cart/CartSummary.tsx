@@ -11,7 +11,7 @@ export function CartSummary() {
     return total + price * item.quantity;
   }, 0);
 
-  const navigate = useNavigate();
+
 
   const handleCheckout = () => {
     closeCart();

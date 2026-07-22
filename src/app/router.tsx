@@ -1,21 +1,7 @@
-<<<<<<< HEAD
-import { createBrowserRouter, useRouteError } from 'react-router-dom';
-import React, { Suspense, lazy } from 'react';
-import { MainLayout } from './MainLayout';
-import HomePage from '../pages/HomePage';
-import ProductsPage from '../pages/ProductsPage';
-import ProductPage from '../pages/ProductPage';
-import SearchPage from '../pages/SearchPage';
-import CartPage from '../pages/CartPage';
-import CheckoutPage from '../pages/CheckoutPage';
-import CheckoutSuccessPage from '../pages/CheckoutSuccessPage';
-=======
 import { createBrowserRouter } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import { MainLayout } from './MainLayout';
-import { AdminLayout } from '../admin/components/AdminLayout';
 import { PageLoader } from '../components/shared/PageLoader';
->>>>>>> 3fef0dc (production ready version with admin panel)
 import NotFoundPage from '../pages/NotFoundPage';
 import { ErrorBoundary } from '../components/shared/ErrorPages';
 
@@ -142,40 +128,6 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <NotFoundPage />,
     children: [
-<<<<<<< HEAD
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'products',
-        element: <ProductsPage />,
-      },
-      {
-        path: 'products/:handle',
-        element: <ProductPage />,
-      },
-      {
-        path: 'search',
-        element: <SearchPage />,
-      },
-      {
-        path: 'cart',
-        element: <CartPage />,
-      },
-      {
-        path: 'checkout',
-        element: <CheckoutPage />,
-      },
-      {
-        path: 'checkout/success',
-        element: <CheckoutSuccessPage />,
-      },
-      {
-        path: 'debug/products',
-        element: <DebugProductsPage />,
-      },
-=======
       { index: true, element: withSuspense(HomePage) },
       { path: 'products', element: withSuspense(ProductsPage) },
       { path: 'products/:handle', element: withSuspense(ProductPage) },
@@ -184,102 +136,10 @@ export const router = createBrowserRouter([
       { path: 'checkout', element: withSuspense(CheckoutPage) },
       { path: 'checkout/success', element: withSuspense(CheckoutSuccessPage) },
       { path: 'debug/products', element: withSuspense(DebugProductsPage) },
->>>>>>> 3fef0dc (production ready version with admin panel)
     ],
   },
   {
     path: '/admin/login',
-<<<<<<< HEAD
-    element: (
-      <Suspense fallback={<AdminLoader />}>
-        <AdminLogin />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/admin',
-    element: (
-      <Suspense fallback={<AdminLoader />}>
-        <ProtectedRoute />
-      </Suspense>
-    ),
-    errorElement: <AdminErrorElement />,
-    children: [
-      {
-        element: <AdminLayout />,
-        children: [
-          {
-            index: true,
-            element: <AdminDashboard />,
-          },
-          {
-            path: 'products',
-            element: <AdminProducts />,
-          },
-          {
-            path: 'products/new',
-            element: <AdminAddProduct />,
-          },
-          {
-            path: 'products/:id',
-            element: <AdminEditProduct />,
-          },
-          {
-            path: 'inventory',
-            element: <AdminInventory />,
-          },
-          {
-            path: 'collections',
-            element: <AdminCollections />,
-          },
-          {
-            path: 'collections/new',
-            element: <AdminAddCollection />,
-          },
-          {
-            path: 'collections/:id',
-            element: <AdminEditCollection />,
-          },
-          {
-            path: 'orders',
-            element: <AdminOrders />,
-          },
-          {
-            path: 'orders/:id',
-            element: <AdminOrderDetails />,
-          },
-          {
-            path: 'customers',
-            element: <AdminCustomers />,
-          },
-          {
-            path: 'customers/:id',
-            element: <AdminCustomerProfile />,
-          },
-          {
-            path: 'cms',
-            element: <AdminCMS />,
-          },
-          {
-            path: 'newsletter',
-            element: <AdminNewsletter />,
-          },
-          {
-            path: 'media',
-            element: <AdminMedia />,
-          },
-          {
-            path: 'settings',
-            element: <AdminSettings />,
-          },
-          {
-            path: 'profile',
-            element: <AdminProfile />,
-          },
-        ],
-      },
-    ],
-=======
     element: withSuspense(AdminLoginPage),
     errorElement: <NotFoundPage />,
   },
@@ -337,6 +197,5 @@ export const router = createBrowserRouter([
       { path: 'system/notifications', element: withSuspense(NotificationsPage) },
       { path: 'system/settings', element: withSuspense(SettingsPage) }
     ]
->>>>>>> 3fef0dc (production ready version with admin panel)
   },
 ]);

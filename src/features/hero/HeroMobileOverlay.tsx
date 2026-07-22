@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCMSContext } from '../../../contexts/CMSContext';
+import { useCMSContext } from "../../contexts/CMSContext";
 
 interface HeroMobileOverlayProps {
   isSequenceComplete: boolean;
