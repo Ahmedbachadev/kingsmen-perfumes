@@ -53,21 +53,25 @@ export const HeroOverlay = () => {
           }}
         >
           {headlineLines.map((line, lineIndex) => (
-            <span key={lineIndex} className="block overflow-hidden pb-2">
-              {line.split('').map((char, charIndex) => (
-                <motion.span
-                  key={`${lineIndex}-${charIndex}`}
-                  className="inline-block"
-                  initial={{ y: '100%', opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: 1,
-                    ease: [0.16, 1, 0.3, 1], // Custom cinematic easing
-                    delay: 0.2 + (lineIndex * 0.1) + (charIndex * 0.03),
-                  }}
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </motion.span>
+            <span key={lineIndex} className="block overflow-hidden pb-2" style={{ overflowWrap: 'break-word' }}>
+              {line.split(' ').map((word, wordIndex) => (
+                <span key={`${lineIndex}-${wordIndex}`} className="inline-block whitespace-nowrap mr-[0.3em]">
+                  {word.split('').map((char, charIndex) => (
+                    <motion.span
+                      key={`${lineIndex}-${wordIndex}-${charIndex}`}
+                      className="inline-block"
+                      initial={{ y: '100%', opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{
+                        duration: 1,
+                        ease: [0.16, 1, 0.3, 1],
+                        delay: 0.2 + (lineIndex * 0.1) + (wordIndex * 0.05) + (charIndex * 0.03),
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
               ))}
             </span>
           ))}
