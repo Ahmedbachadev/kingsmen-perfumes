@@ -145,6 +145,6 @@ export const uploadProductImage = async (file: File): Promise<string> => {
 
   if (uploadError) throw uploadError;
 
-  const { data } = supabase.storage.from('products').getPublicUrl(filePath);
+  const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
   return data.publicUrl;
 };

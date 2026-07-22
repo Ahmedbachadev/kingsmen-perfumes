@@ -24,7 +24,7 @@ export const uploadImageToStorage = async (file: File): Promise<string> => {
   const filePath = `product_images/${fileName}`;
 
   const { error: uploadError } = await supabase.storage
-    .from('products')
+    .from('product-images')
     .upload(filePath, file, {
       cacheControl: '3600',
       upsert: false
@@ -32,16 +32,16 @@ export const uploadImageToStorage = async (file: File): Promise<string> => {
 
   if (uploadError) throw uploadError;
 
-  const { data } = supabase.storage.from('products').getPublicUrl(filePath);
+  const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
   return data.publicUrl;
 };
 
 export const deleteImageFromStorage = async (url: string) => {
   // Extract path from public URL. This assumes the format .../storage/v1/object/public/products/<path>
-  const pathParts = url.split('/public/products/');
+  const pathParts = url.split('/public/product-images/');
   if (pathParts.length === 2) {
     const path = pathParts[1];
-    const { error } = await supabase.storage.from('products').remove([path]);
+    const { error } = await supabase.storage.from('product-images').remove([path]);
     if (error) throw error;
   }
 };
