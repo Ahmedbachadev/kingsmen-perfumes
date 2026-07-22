@@ -3,6 +3,7 @@ import { validateProduct } from '../validation/productSchema';
 import type { ProductFormData, ValidationErrors } from '../validation/productSchema';
 import * as productService from '../services/productService';
 import type { Product } from '../types/product';
+import toast from 'react-hot-toast';
 
 export const useUpdateProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -27,6 +28,7 @@ export const useUpdateProduct = () => {
       const slugExists = await productService.checkSlugExists(data.slug, id);
       if (slugExists) {
         setErrors({ slug: 'This slug is already in use.' });
+        toast.error('This slug is already in use.');
         setLoading(false);
         return false;
       }
@@ -82,10 +84,13 @@ export const useUpdateProduct = () => {
         );
       }
 
+      toast.success('Product updated successfully!');
       return true;
     } catch (err: any) {
       console.error('Error updating product:', err);
-      setServerError(err.message || 'An unexpected error occurred while saving the product.');
+      const errorMessage = err.message || 'An unexpected error occurred while saving the product.';
+      setServerError(errorMessage);
+      toast.error(errorMessage);
       return false;
     } finally {
       setLoading(false);
