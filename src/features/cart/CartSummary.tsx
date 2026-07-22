@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCartContext } from '../../contexts/CartContext';
 
 export function CartSummary() {
+  const navigate = useNavigate();
   const { items, closeCart } = useCartContext();
   
   const subtotal = items.reduce((total, item) => {

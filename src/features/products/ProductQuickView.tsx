@@ -51,7 +51,7 @@ export function ProductQuickView({ product, onClose }: ProductQuickViewProps) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              src={product.featuredImage?.url || ''} 
+              src={product.featuredImage?.url || undefined} 
               alt={product.title}
               className="w-full h-full object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
             />

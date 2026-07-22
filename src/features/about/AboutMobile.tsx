@@ -5,14 +5,17 @@ import { useCMSContext } from '../../contexts/CMSContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 159;
+const _TOTAL_FRAMES = 159;
+const FRAME_STEP = 3;
+const TOTAL_FRAMES = Math.ceil(_TOTAL_FRAMES / FRAME_STEP);
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
 const FRAME_EXTENSION = '.png';
 const BASE_PATH = '/sequences/about/mobile/';
 
 const getFramePath = (index: number) => {
-  const paddedNumber = index.toString().padStart(FRAME_DIGITS, '0');
+  const realIndex = index * FRAME_STEP;
+  const paddedNumber = realIndex.toString().padStart(FRAME_DIGITS, '0');
   return `${BASE_PATH}${FRAME_PREFIX}${paddedNumber}${FRAME_EXTENSION}`;
 };
 
@@ -30,8 +33,22 @@ export const AboutMobile = () => {
   const descRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setShouldLoad(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '1500px' });
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   // 1. Preload Images
   useEffect(() => {
+    if (!shouldLoad) return;
     let loaded = 0;
     const images: HTMLImageElement[] = [];
 
@@ -50,7 +67,7 @@ export const AboutMobile = () => {
       images.push(img);
     }
     imagesRef.current = images;
-  }, []);
+  }, [shouldLoad]);
 
   // 2. Setup Canvas & Scroll Logic
   useEffect(() => {
@@ -99,21 +116,17 @@ export const AboutMobile = () => {
 
     const lockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-lock'));
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
     };
 
     const unlockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-unlock'));
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
     };
 
     const snapToTop = () => {
       if (containerRef.current) {
         const top = containerRef.current.getBoundingClientRect().top + window.scrollY;
         // Snap cleanly to the top of the section
-        window.scrollTo({ top, behavior: 'instant' });
+        window.dispatchEvent(new CustomEvent('lenis-scroll-to', { detail: { target: top } }));
       }
     };
 

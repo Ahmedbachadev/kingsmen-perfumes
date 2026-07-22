@@ -117,7 +117,7 @@ export const SignatureCollectionMobile = () => {
                         </h3>
                         
                         <span className="text-[#E8D3A2] text-[9px] uppercase tracking-[0.2em] mb-4 line-clamp-1 w-full">
-                          {product.vendor || 'Kingsmen'}
+                          {'Kingsmen'}
                         </span>
                         
                         <span className="text-white/80 text-[14px] font-light mb-5 tracking-widest">

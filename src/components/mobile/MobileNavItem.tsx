@@ -12,7 +12,7 @@ const itemVariants = {
     opacity: 1, 
     y: 0, 
     filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
+    transition: { duration: 0.6, ease: "easeOut" as any as any } 
   },
   exit: { opacity: 0, y: -20, filter: 'blur(10px)', transition: { duration: 0.4, ease: 'easeOut' } }
 };

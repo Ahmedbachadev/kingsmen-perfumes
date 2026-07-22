@@ -33,7 +33,7 @@ export function ProductCard({ product, onQuickView, editorial = false }: Product
           
           <motion.img 
             layoutId={`bottle-${product.handle}`}
-            src={product.featuredImage?.url || ''} 
+            src={product.featuredImage?.url || undefined} 
             alt={product.title} 
             className="w-full h-full object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             animate={{ y: isHovered ? -15 : 0, scale: isHovered ? 1.05 : 1 }}

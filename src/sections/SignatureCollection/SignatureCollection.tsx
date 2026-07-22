@@ -175,7 +175,7 @@ export const SignatureCollection = () => {
                 <Link to={`/products/${activeProduct.handle}`} className="relative w-[55%] aspect-[9/16] max-w-[550px] flex items-center justify-center cursor-pointer group">
                   <motion.img
                     layoutId={`bottle-${activeProduct.handle}`}
-                    src={activeProduct.featuredImage?.url || ''}
+                    src={activeProduct.featuredImage?.url || undefined}
                     alt={activeProduct.title}
                     className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)] scale-110 group-hover:scale-[1.15] transition-transform duration-700"
                   />

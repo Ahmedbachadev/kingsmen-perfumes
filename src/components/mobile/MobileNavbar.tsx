@@ -68,7 +68,7 @@ export const MobileNavbar: React.FC = () => {
       <motion.nav
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: isHidden ? 0 : 1, y: isHidden ? -100 : 0 }}
-        transition={{ duration: isInitialLoad ? 1.2 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: isInitialLoad ? 1.2 : 0.4, ease: "easeOut" as any as any }}
         className="fixed top-4 left-4 right-4 h-[70px] z-[90] flex items-center justify-between px-6 rounded-full lg:hidden"
       >
         {/* Premium Liquid Glass Background */}

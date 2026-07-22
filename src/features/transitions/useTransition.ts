@@ -20,16 +20,6 @@ export function useTransition() {
     if (type === 'overlay') {
       // The overlay handles actual navigation once it reaches 'visible' state
     } else if (type === 'morph') {
-      // If morphing to a product, prefetch the product data first
-      // This ensures the page mounts instantly and doesn't break the layoutId transition with a loading screen
-      if (to.startsWith('/products/')) {
-        const handle = to.replace('/products/', '');
-        try {
-          await fetcher(`/api/product?handle=${handle}`);
-        } catch (e) {
-          console.warn('Failed to prefetch product', e);
-        }
-      }
       navigate(to);
     } else {
       // For slide, navigate immediately. 

@@ -37,7 +37,7 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({ isOpen, on
     visible: {
       opacity: 1,
       backdropFilter: 'blur(24px)',
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.6, ease: "easeOut" as any as any }
     },
     exit: {
       opacity: 0,
@@ -138,15 +138,14 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({ isOpen, on
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as any as any } },
                   exit: { opacity: 0, y: 10 }
                 }}
                 className="mt-12 flex flex-col items-center gap-8"
               >
                 <GlassButton
                   className="py-3 px-8 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     onNavigate('products');
                   }}
                 >

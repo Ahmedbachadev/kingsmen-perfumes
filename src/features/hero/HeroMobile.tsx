@@ -2,14 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { HeroMobileOverlay } from './HeroMobileOverlay';
 
-const TOTAL_FRAMES = 108;
+const _TOTAL_FRAMES = 108;
+const FRAME_STEP = 3;
+const TOTAL_FRAMES = Math.ceil(_TOTAL_FRAMES / FRAME_STEP);
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
 const FRAME_EXTENSION = '.png';
 const BASE_PATH = '/sequences/hero/mobile/';
 
 const getFramePath = (index: number) => {
-  const paddedNumber = index.toString().padStart(FRAME_DIGITS, '0');
+  const realIndex = index * FRAME_STEP;
+  const paddedNumber = realIndex.toString().padStart(FRAME_DIGITS, '0');
   return `${BASE_PATH}${FRAME_PREFIX}${paddedNumber}${FRAME_EXTENSION}`;
 };
 
@@ -52,9 +55,7 @@ export const HeroMobile = () => {
     if (hasPlayedRef.current) return;
     hasPlayedRef.current = true;
 
-    // Lock scroll during animation
     window.dispatchEvent(new CustomEvent('lenis-lock'));
-    document.body.style.overflow = 'hidden';
 
     gsap.to(currentFrameRef.current, {
       frame: TOTAL_FRAMES - 1,
@@ -65,7 +66,6 @@ export const HeroMobile = () => {
       },
       onComplete: () => {
         window.dispatchEvent(new CustomEvent('lenis-unlock'));
-        document.body.style.overflow = '';
         setIsSequenceComplete(true);
       }
     });
@@ -117,50 +117,26 @@ export const HeroMobile = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.dispatchEvent(new CustomEvent('lenis-unlock'));
     };
   }, []);
 
-  // 2. Playback Logic (triggered when fully loaded IF user wanted to play)
+  // 2. Playback Logic (triggered when fully loaded)
+  const [isLoaderDone, setIsLoaderDone] = useState(false);
+
   useEffect(() => {
-    if (isLoaded && wantsToPlayRef.current && !hasPlayedRef.current) {
+    // Wait for the 4s GlobalLoader + 0.5s fade out to complete
+    const timer = setTimeout(() => {
+      setIsLoaderDone(true);
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && isLoaderDone && !hasPlayedRef.current) {
       playAnimation();
     }
-  }, [isLoaded]);
-
-  // 3. Scroll Interception
-  useEffect(() => {
-    // If it has already played, do not attach any listeners!
-    if (hasPlayedRef.current) return;
-
-    const handleScrollAttempt = (e: Event) => {
-      if (hasPlayedRef.current) return;
-
-      // Remove the listeners IMMEDIATELY so they don't block native mobile scrolling after the animation
-      window.removeEventListener('wheel', handleScrollAttempt);
-      window.removeEventListener('touchmove', handleScrollAttempt);
-
-      // User tried to scroll. Stop them.
-      e.preventDefault();
-      window.dispatchEvent(new CustomEvent('lenis-lock'));
-      document.body.style.overflow = 'hidden';
-
-      if (isLoaded) {
-        // If loaded, play immediately
-        playAnimation();
-      } else {
-        // Queue it to play as soon as loading finishes
-        wantsToPlayRef.current = true;
-      }
-    };
-
-    window.addEventListener('wheel', handleScrollAttempt, { passive: false });
-    window.addEventListener('touchmove', handleScrollAttempt, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleScrollAttempt);
-      window.removeEventListener('touchmove', handleScrollAttempt);
-    };
-  }, [isLoaded]);
+  }, [isLoaded, isLoaderDone]);
 
   return (
     <div ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden">

@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GlassButton } from '../shared/GlassButton';
+<<<<<<< HEAD
 import { MobileProductCarousel } from './MobileProductCarousel';
 import { useCMSContext } from '../../contexts/CMSContext';
+=======
+>>>>>>> 3fef0dc (production ready version with admin panel)
 
 export const MobileUnisexContent: React.FC = () => {
   const { config } = useCMSContext();
@@ -25,13 +28,13 @@ export const MobileUnisexContent: React.FC = () => {
       filter: 'blur(0px)',
       transition: {
         duration: 0.8,
-        ease: [0.16, 1, 0.3, 1], // Premium Framer Motion easing
+        ease: 'easeOut' as any, // Premium Framer Motion easing
       },
     },
     exit: { 
       opacity: 0, 
       y: -15, 
-      transition: { duration: 0.4, ease: 'easeOut' }
+      transition: { duration: 0.4, ease: 'easeOut' as any }
     }
   };
 
@@ -41,7 +44,7 @@ export const MobileUnisexContent: React.FC = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end text-center px-4 sm:px-12 pb-8 z-30 pointer-events-auto"
+      className="absolute inset-x-0 top-[12dvh] flex flex-col items-center justify-start text-center px-8 sm:px-12 z-30 pointer-events-auto"
     >
       <motion.p
         variants={itemVariants}
@@ -54,7 +57,12 @@ export const MobileUnisexContent: React.FC = () => {
         variants={itemVariants}
         className="text-[26px] sm:text-3xl font-serif text-[#FDFBF7] leading-[1.15] tracking-tight mb-4 whitespace-pre-line"
       >
+<<<<<<< HEAD
         {config.collections.unisex.title}
+=======
+        Crafted For<br />
+        Every Presence.
+>>>>>>> 3fef0dc (production ready version with admin panel)
       </motion.h2>
 
       <motion.p
@@ -64,11 +72,7 @@ export const MobileUnisexContent: React.FC = () => {
         {config.collections.unisex.description}
       </motion.p>
 
-      <motion.div variants={itemVariants} className="w-[100vw] sm:w-[90vw] -mx-4 sm:-mx-12 mb-6">
-        <MobileProductCarousel />
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} className="mt-4">
         <GlassButton className="py-2.5 px-6 sm:px-8 sm:py-3 shadow-2xl">
           Explore Collection
         </GlassButton>

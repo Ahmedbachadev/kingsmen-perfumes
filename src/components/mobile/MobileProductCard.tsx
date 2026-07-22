@@ -15,8 +15,8 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product, i
     navigate(`/products/${product.handle}`, 'morph');
   };
 
-  const image = product.images?.edges[0]?.node?.url || '';
-  const collectionName = product.collections?.edges[0]?.node?.title || 'Signature';
+  const image = (product as any).images?.edges[0]?.node?.url || '';
+  const collectionName = (product as any).collections?.edges[0]?.node?.title || 'Signature';
 
   return (
     <motion.div
@@ -25,7 +25,7 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product, i
       viewport={{ once: true, margin: '-50px' }}
       transition={{ 
         duration: 0.6, 
-        ease: [0.16, 1, 0.3, 1],
+        ease: "easeOut" as any as any,
         delay: (index % 4) * 0.1 // Stagger row by row roughly
       }}
       className="group relative flex flex-col items-center bg-white/[0.02] backdrop-blur-xl rounded-2xl border border-[rgba(235,213,179,0.15)] shadow-[0_10px_30px_rgba(0,0,0,0.3)] overflow-hidden"

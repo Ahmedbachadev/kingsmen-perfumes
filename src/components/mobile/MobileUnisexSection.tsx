@@ -6,14 +6,17 @@ import { MobileUnisexContent } from './MobileUnisexContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 122; // 000000 to 000121
+const _TOTAL_FRAMES = 122; // 000000 to 000121
+const FRAME_STEP = 3;
+const TOTAL_FRAMES = Math.ceil(_TOTAL_FRAMES / FRAME_STEP);
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
 const FRAME_EXTENSION = '.png';
 const BASE_PATH = '/sequences/unisex/mobile/';
 
 const getFramePath = (index: number) => {
-  const paddedNumber = index.toString().padStart(FRAME_DIGITS, '0');
+  const realIndex = index * FRAME_STEP;
+  const paddedNumber = realIndex.toString().padStart(FRAME_DIGITS, '0');
   return `${BASE_PATH}${FRAME_PREFIX}${paddedNumber}${FRAME_EXTENSION}`;
 };
 
@@ -25,7 +28,21 @@ export const MobileUnisexSection: React.FC = () => {
   const hasPlayedRef = useRef(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
+  const [shouldLoad, setShouldLoad] = useState(false);
+
   useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setShouldLoad(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '1500px' });
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
     let loaded = 0;
     const images: HTMLImageElement[] = [];
     for (let i = 0; i < TOTAL_FRAMES; i++) {
@@ -36,7 +53,7 @@ export const MobileUnisexSection: React.FC = () => {
       images.push(img);
     }
     imagesRef.current = images;
-  }, []);
+  }, [shouldLoad]);
 
   useEffect(() => {
     if (!isLoaded || !canvasRef.current || !containerRef.current) return;
@@ -75,20 +92,16 @@ export const MobileUnisexSection: React.FC = () => {
 
     const lockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-lock'));
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
     };
 
     const unlockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-unlock'));
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
     };
 
     const snapToTop = () => {
       if (containerRef.current) {
         const top = containerRef.current.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top, behavior: 'instant' });
+        window.dispatchEvent(new CustomEvent('lenis-scroll-to', { detail: { target: top } }));
       }
     };
 

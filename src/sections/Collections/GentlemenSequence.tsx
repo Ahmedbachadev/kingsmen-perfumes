@@ -18,8 +18,12 @@ const getFramePath = (index: number) => {
 };
 
 export const GentlemenSequence: React.FC = () => {
+<<<<<<< HEAD
   const { config } = useCMSContext();
   const [loadedCount, setLoadedCount] = useState(0);
+=======
+  const [, setLoadedCount] = useState(0);
+>>>>>>> 3fef0dc (production ready version with admin panel)
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,8 +57,16 @@ export const GentlemenSequence: React.FC = () => {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFramePath(i);
-      img.onload = () => { loaded++; setLoadedCount(loaded); if (loaded === TOTAL_FRAMES) setIsLoaded(true); };
-      img.onerror = () => { loaded++; setLoadedCount(loaded); if (loaded === TOTAL_FRAMES) setIsLoaded(true); };
+      img.onload = () => {
+        loaded++;
+        setLoadedCount(loaded);
+        if (i === 0 || loaded >= 1) setIsLoaded(true);
+      };
+      img.onerror = () => {
+        loaded++;
+        setLoadedCount(loaded);
+        if (i === 0 || loaded >= 1) setIsLoaded(true);
+      };
       images.push(img);
     }
     imagesRef.current = images;
@@ -69,7 +81,15 @@ export const GentlemenSequence: React.FC = () => {
 
     const render = () => {
       const frameIndex = Math.round(currentFrameRef.current.frame);
-      const img = images[frameIndex];
+      let img = images[frameIndex];
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        for (let k = frameIndex - 1; k >= 0; k--) {
+          if (images[k] && images[k].complete && images[k].naturalWidth > 0) {
+            img = images[k];
+            break;
+          }
+        }
+      }
       if (!img || !img.complete || img.naturalWidth === 0) return;
       const cw = canvas.width; const ch = canvas.height;
       const iw = img.naturalWidth; const ih = img.naturalHeight;

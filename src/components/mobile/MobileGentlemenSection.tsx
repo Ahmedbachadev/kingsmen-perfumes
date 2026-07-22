@@ -3,20 +3,21 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { MobileCollectionHeader } from './MobileCollectionHeader';
-import { MobileProductCarousel } from './MobileProductCarousel';
 import { GoldButton } from '../shared/GoldButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 129;
+const _TOTAL_FRAMES = 129;
+const FRAME_STEP = 3;
+const TOTAL_FRAMES = Math.ceil(_TOTAL_FRAMES / FRAME_STEP);
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
 const FRAME_EXTENSION = '.png';
-const BASE_PATH = '/sequences/gentlemen/desktop/';
+const BASE_PATH = '/sequences/gentlemen/mobile/';
 
 const getFramePath = (index: number) => {
-  const paddedNumber = index.toString().padStart(FRAME_DIGITS, '0');
+  const realIndex = index * FRAME_STEP;
+  const paddedNumber = realIndex.toString().padStart(FRAME_DIGITS, '0');
   return `${BASE_PATH}${FRAME_PREFIX}${paddedNumber}${FRAME_EXTENSION}`;
 };
 
@@ -28,7 +29,21 @@ export const MobileGentlemenSection: React.FC = () => {
   const hasPlayedRef = useRef(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
+  const [shouldLoad, setShouldLoad] = useState(false);
+
   useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setShouldLoad(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '1500px' });
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
     let loaded = 0;
     const images: HTMLImageElement[] = [];
     for (let i = 0; i < TOTAL_FRAMES; i++) {
@@ -39,7 +54,7 @@ export const MobileGentlemenSection: React.FC = () => {
       images.push(img);
     }
     imagesRef.current = images;
-  }, []);
+  }, [shouldLoad]);
 
   useEffect(() => {
     if (!isLoaded || !canvasRef.current || !containerRef.current) return;
@@ -78,20 +93,16 @@ export const MobileGentlemenSection: React.FC = () => {
 
     const lockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-lock'));
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
     };
 
     const unlockScroll = () => {
       window.dispatchEvent(new CustomEvent('lenis-unlock'));
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
     };
 
     const snapToTop = () => {
       if (containerRef.current) {
         const top = containerRef.current.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top, behavior: 'instant' });
+        window.dispatchEvent(new CustomEvent('lenis-scroll-to', { detail: { target: top } }));
       }
     };
 
@@ -161,7 +172,7 @@ export const MobileGentlemenSection: React.FC = () => {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.8, ease: "easeOut" as any as any }
     }
   };
 
@@ -192,17 +203,22 @@ export const MobileGentlemenSection: React.FC = () => {
               initial="hidden"
               animate="visible"
               exit="hidden"
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-start px-8"
             >
-              <motion.div variants={itemVariants} className="w-full relative z-30 -mb-6 md:-mb-8">
-                <MobileCollectionHeader />
+              <motion.div variants={itemVariants} className="w-full relative z-30 mb-8">
+                <span className="text-[#E8D3A2] text-[10px] md:text-[11px] tracking-[0.3em] uppercase font-semibold mb-3 md:mb-4 block opacity-90 text-left">
+                  Gentlemen Collection
+                </span>
+                <h2 className="text-white text-3xl md:text-4xl font-light tracking-tight mb-3 md:mb-4 leading-[1.15] text-left">
+                  Confidence,<br />Bottled.
+                </h2>
+                <p className="text-white/60 text-[13px] md:text-[14px] font-light leading-relaxed text-left max-w-[280px]">
+                  Crafted for men who lead with quiet confidence.<br />
+                  Timeless fragrances inspired by elegance, ambition and character.
+                </p>
               </motion.div>
               
-              <motion.div variants={itemVariants} className="w-full relative z-20">
-                <MobileProductCarousel />
-              </motion.div>
-
-              <motion.div variants={itemVariants} className="mt-2 md:mt-4">
+              <motion.div variants={itemVariants} className="mt-2 md:mt-4 w-full flex justify-center">
                 <GoldButton>Explore Gentlemen Collection</GoldButton>
               </motion.div>
             </motion.div>

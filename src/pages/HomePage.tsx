@@ -44,6 +44,11 @@ export default function HomePage() {
 
     gsap.ticker.lagSmoothing(0);
 
+    // Refresh ScrollTrigger once GlobalLoader unlocks page after 4s
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 4200);
+
     // Custom power3 easing curve for a flat, uniform speed distribution
     const slowCubicEase = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -57,60 +62,9 @@ export default function HomePage() {
       const threshold = 35; // Reliable pixel buffer window
 
       if (window.innerWidth < 1024) {
-        // --- MOBILE DYNAMIC SNAP WITH FADE ---
-        const mGentlemen = document.getElementById('gentlemen-mobile');
-        const mLadies = document.getElementById('ladies-mobile');
-        const mUnisex = document.getElementById('unisex-mobile');
-
-        if (mGentlemen && mLadies && mUnisex) {
-          const gTop = mGentlemen.offsetTop;
-          const lTop = mLadies.offsetTop;
-          const uTop = mUnisex.offsetTop;
-
-          const doMobileTransition = (targetY: number) => {
-            isAutoScrolling = true;
-            lenis.stop();
-            gsap.to('#mobile-transition-overlay', {
-              opacity: 1,
-              duration: 0.4,
-              ease: 'power2.inOut',
-              onComplete: () => {
-                lenis.scrollTo(targetY, { immediate: true });
-                ScrollTrigger.update();
-                gsap.to('#mobile-transition-overlay', {
-                  opacity: 0,
-                  duration: 0.4,
-                  ease: 'power2.inOut',
-                  onComplete: () => {
-                    isAutoScrolling = false;
-                    lenis.start();
-                  }
-                });
-              }
-            });
-          };
-
-          if (e.direction === 1) {
-            // Scrolling down from Gentlemen -> fade to Ladies
-            if (Math.abs(currentScroll - gTop) < threshold) {
-              doMobileTransition(lTop);
-            }
-            // Scrolling down from Ladies -> fade to Unisex
-            else if (Math.abs(currentScroll - lTop) < threshold) {
-              doMobileTransition(uTop);
-            }
-          } else if (e.direction === -1) {
-            // Scrolling up from Unisex -> fade to Ladies (jump to uTop - 1 to trigger onEnterBack)
-            if (Math.abs(currentScroll - uTop) < threshold) {
-              doMobileTransition(uTop - 1);
-            }
-            // Scrolling up from Ladies -> fade to Gentlemen (jump to lTop - 1 to trigger onEnterBack)
-            else if (Math.abs(currentScroll - lTop) < threshold) {
-              doMobileTransition(lTop - 1);
-            }
-          }
-        }
-        return; // Disable GSAP dynamic snapping on mobile for everything else
+        // Disable GSAP dynamic snapping on mobile, let the individual components 
+        // (MobileGentlemenSection, etc.) handle their own ScrollTriggers for natural flow
+        return;
       }
 
       // --- DESKTOP DYNAMIC SNAP ---
@@ -293,15 +247,30 @@ export default function HomePage() {
     };
     window.addEventListener('cart-toggled', handleCartToggle);
 
-    const handleLenisLock = () => lenis.stop();
-    const handleLenisUnlock = () => lenis.start();
+    const handleLenisLock = () => {
+      lenis.stop();
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    };
+    const handleLenisUnlock = () => {
+      lenis.start();
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+    const handleLenisScrollTo = (e: any) => {
+      if (e.detail?.target !== undefined) {
+        lenis.scrollTo(e.detail.target, { immediate: true });
+      }
+    };
     window.addEventListener('lenis-lock', handleLenisLock);
     window.addEventListener('lenis-unlock', handleLenisUnlock);
+    window.addEventListener('lenis-scroll-to', handleLenisScrollTo);
 
     return () => {
       window.removeEventListener('cart-toggled', handleCartToggle);
       window.removeEventListener('lenis-lock', handleLenisLock);
       window.removeEventListener('lenis-unlock', handleLenisUnlock);
+      window.removeEventListener('lenis-scroll-to', handleLenisScrollTo);
       lenis.off('scroll', handleScroll);
       lenis.destroy();
       gsap.ticker.remove((time) => {

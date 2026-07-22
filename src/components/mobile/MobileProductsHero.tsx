@@ -8,7 +8,7 @@ export const MobileProductsHero: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease: "easeOut" as any as any }}
         className="flex flex-col items-center"
       >
         <span className="text-[#E8D3A2] text-[10px] tracking-[0.3em] uppercase mb-6 font-medium">

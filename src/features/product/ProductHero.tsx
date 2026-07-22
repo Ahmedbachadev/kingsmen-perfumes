@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowLeft, ShoppingBag, ShieldCheck, Truck, RefreshCw, Check } from 'lucide-react';
 import type { ShopifyProduct } from '../../services/shopify/types';
 import { useCartContext } from '../../contexts/CartContext';
 import { useTransition } from '../transitions';
@@ -7,89 +9,181 @@ interface ProductHeroProps {
   product: ShopifyProduct;
 }
 
-export const ProductHero = ({ product }: ProductHeroProps) => {
+export const ProductHero: React.FC<ProductHeroProps> = ({ product }) => {
   const { addToCart } = useCartContext();
   const navigate = useTransition();
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const price = parseFloat(product.priceRange?.minVariantPrice?.amount || '250');
+  const formattedPrice = `$${price.toFixed(2)}`;
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
-    <section className="relative w-full h-[100vh] min-h-[800px] flex items-center justify-center overflow-hidden bg-[#0a0a0a] pt-24">
-      {/* Ambient Backlight */}
+    <section className="relative w-full min-h-screen bg-[#0a0a0a] pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden">
+      {/* Ambient Gold Backlight Glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-        <div className="w-[60vw] h-[60vw] bg-[#E8D3A2]/5 rounded-full blur-[150px]" />
+        <div className="w-[80vw] max-w-[800px] h-[80vw] max-h-[800px] bg-[#D4AF37]/5 rounded-full blur-[140px]" />
       </div>
 
-      {/* Back Button */}
-      <button 
-        onClick={() => navigate('/products', 'morph')}
-        className="absolute top-24 left-8 lg:left-24 z-50 flex items-center gap-2 text-white/50 hover:text-white transition-colors group tracking-[0.2em] uppercase text-[10px]"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="group-hover:-translate-x-1 transition-transform">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Back to Collection
-      </button>
-
-      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-8 lg:px-24 flex flex-col items-center justify-center h-full">
-        {/* Title & Tagline */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
-          className="text-center mb-8"
+      <div className="relative z-10 max-w-[1500px] mx-auto px-4 md:px-8 lg:px-16">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/products', 'morph')}
+          className="inline-flex items-center gap-2 text-white/50 hover:text-[#D4AF37] transition-colors mb-8 text-xs uppercase tracking-[0.2em] font-medium group"
         >
-          <span className="text-[#E8D3A2] tracking-[0.4em] text-xs uppercase font-semibold block mb-4">
-            Signature Collection
-          </span>
-          <h1 className="text-white text-5xl lg:text-7xl font-light tracking-widest uppercase mb-4">
-            {product.title}
-          </h1>
-          <p className="text-white/60 text-lg tracking-[0.2em] uppercase">
-            The essence of elegance.
-          </p>
-        </motion.div>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-[#D4AF37]" />
+          <span>Back to Collection</span>
+        </button>
 
-        {/* Centered Bottle */}
-        <div className="relative w-full max-w-[400px] aspect-[9/16] flex items-center justify-center my-8">
-          <motion.img
-            layoutId={`bottle-${product.handle}`}
-            src={product.featuredImage?.url || ''}
-            alt={product.title}
-            className="w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)] z-20 scale-110"
-            transition={{ type: 'spring', stiffness: 50, damping: 20 }}
-          />
+        {/* Responsive Grid: 1 Column on Mobile, 2 Columns on Desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+          {/* Left Column: Product Image Display */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-[450px] aspect-[3/4] rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-xl p-8 flex items-center justify-center shadow-2xl overflow-hidden group"
+            >
+              {/* Internal subtle glow ring */}
+              <div className="absolute inset-0 bg-radial from-[#D4AF37]/10 via-transparent to-transparent opacity-60" />
+
+              <motion.img
+                layoutId={`bottle-${product.handle}`}
+                src={product.featuredImage?.url || '/placeholder-perfume.jpg'}
+                alt={product.featuredImage?.altText || product.title}
+                className="w-full h-full object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.9)] z-10 group-hover:scale-105 transition-transform duration-700 ease-out"
+                transition={{ type: 'spring', stiffness: 60, damping: 20 }}
+              />
+
+              {/* Exclusive Badge */}
+              <span className="absolute top-4 left-4 px-3 py-1 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] uppercase tracking-[0.2em] font-semibold rounded-full backdrop-blur-md">
+                Eau de Parfum
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Product Details & Purchase Actions */}
+          <div className="lg:col-span-6 space-y-6 lg:space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="space-y-3"
+            >
+              <div className="flex items-center gap-2">
+                <span className="h-[1px] w-8 bg-[#D4AF37]" />
+                <span className="text-[#D4AF37] tracking-[0.3em] text-xs uppercase font-semibold">
+                  Kingsmen Private Blend
+                </span>
+              </div>
+
+              <h1 className="text-white text-3xl sm:text-4xl lg:text-6xl font-light tracking-[0.1em] uppercase leading-tight">
+                {product.title}
+              </h1>
+
+              <div className="flex items-baseline gap-4 pt-2">
+                <span className="text-[#D4AF37] text-3xl lg:text-4xl font-light tracking-wide tabular-nums">
+                  {formattedPrice}
+                </span>
+                <span className="text-emerald-400 text-xs uppercase tracking-wider font-medium px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
+                  In Stock & Ready to Ship
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Description Snippet */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white/70 text-sm md:text-base font-light leading-relaxed max-w-xl"
+            >
+              {product.description ||
+                'An exquisite olfactory masterpiece crafted with rare botanicals, precious woods, and warm amber accents designed to leave an indelible impression.'}
+            </motion.p>
+
+            {/* Quantity & Add to Cart Controls */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="space-y-4 pt-4 border-t border-white/10"
+            >
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                {/* Quantity selector */}
+                <div className="flex items-center justify-between border border-white/20 rounded-xl bg-white/5 px-4 py-3 sm:w-36 shrink-0">
+                  <span className="text-xs uppercase text-white/50 tracking-wider">Qty</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      className="text-white/60 hover:text-white text-base font-bold w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
+                    >
+                      -
+                    </button>
+                    <span className="text-white font-semibold text-sm tabular-nums w-4 text-center">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => setQuantity((q) => q + 1)}
+                      className="text-white/60 hover:text-white text-base font-bold w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                {/* Add to Cart CTA */}
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleAddToCart}
+                  className="flex-1 relative overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#FFF8DC] to-[#D4AF37] text-black py-4 px-8 rounded-xl font-bold uppercase tracking-[0.2em] text-xs shadow-[0_0_25px_rgba(212,175,55,0.3)] transition-all duration-300 hover:shadow-[0_0_35px_rgba(212,175,55,0.5)] flex items-center justify-center gap-2"
+                >
+                  {isAdded ? (
+                    <>
+                      <Check className="w-4 h-4 text-black" />
+                      <span>Added to Bag</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag className="w-4 h-4 text-black" />
+                      <span>Add to Bag • ${(price * quantity).toFixed(2)}</span>
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </motion.div>
+
+            {/* Reassurance Features Grid */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-white/10 text-white/60 text-xs"
+            >
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <Truck className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <span>Cash on Delivery Available</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <ShieldCheck className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <span>100% Authentic Guaranteed</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <RefreshCw className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <span>Fast 3-5 Day Shipping</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
-
-        {/* Price & Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1], delay: 0.4 }}
-          className="flex flex-col items-center mt-8 z-30"
-        >
-          <p className="text-white text-2xl font-light tracking-wider mb-6">
-            ${product.priceRange?.minVariantPrice?.amount || '250.00'}
-          </p>
-          <button 
-            onClick={() => addToCart(product)}
-            className="relative overflow-hidden group bg-white text-black px-12 py-4 rounded-sm tracking-[0.2em] uppercase text-xs font-semibold hover:text-white transition-colors duration-500"
-          >
-            <span className="relative z-10">Add to Cart</span>
-            <div className="absolute inset-0 bg-[#E8D3A2] transform scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-500 ease-[0.25,1,0.5,1] z-0" />
-          </button>
-        </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-white/30 text-[10px] uppercase tracking-[0.3em]">Discover</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent" />
-      </motion.div>
     </section>
   );
 };

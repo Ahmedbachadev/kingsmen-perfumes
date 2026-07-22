@@ -94,6 +94,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = useCallback(() => {
     setItems([]);
+<<<<<<< HEAD
+=======
+    localStorage.removeItem('kingsmen_cart');
+>>>>>>> 3fef0dc (production ready version with admin panel)
   }, []);
 
   return (

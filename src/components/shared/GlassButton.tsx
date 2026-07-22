@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import React from 'react';
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import type { HTMLMotionProps } from 'framer-motion';
 

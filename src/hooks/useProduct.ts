@@ -1,22 +1,15 @@
 import { useState, useEffect } from 'react';
-import { fetcher, fetchCache } from '../lib/fetcher';
 import type { ShopifyProduct } from '../services/shopify/types';
+import { ProductsService } from '../services/supabase/products.service';
+import { mapToShopifyProduct } from './useProducts';
 
 export function useProduct(handle?: string) {
-  const cacheKey = `/api/product?handle=${handle}`;
-  const initialData = handle && fetchCache.has(cacheKey) ? fetchCache.get(cacheKey).product : null;
-
-  const [product, setProduct] = useState<ShopifyProduct | null>(initialData);
-  const [loading, setLoading] = useState(initialData === null);
+  const [product, setProduct] = useState<ShopifyProduct | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     if (!handle) {
-      setLoading(false);
-      return;
-    }
-    
-    if (initialData) {
       setLoading(false);
       return;
     }
@@ -26,9 +19,9 @@ export function useProduct(handle?: string) {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetcher<{ product: ShopifyProduct }>(`/api/product?handle=${handle}`);
-        if (isMounted) setProduct(data.product);
-      } catch (err) {
+        const data = await ProductsService.getProduct(handle as string, 'slug');
+        if (isMounted) setProduct(mapToShopifyProduct(data));
+      } catch (err: any) {
         if (isMounted) setError(err instanceof Error ? err : new Error('Unknown error'));
       } finally {
         if (isMounted) setLoading(false);

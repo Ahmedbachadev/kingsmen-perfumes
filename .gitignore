@@ -31,4 +31,4 @@ dist-ssr
 .env.production.local
 
 # sequences
-public/sequences
+public/sequences/

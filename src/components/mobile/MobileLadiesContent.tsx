@@ -24,7 +24,7 @@ export const MobileLadiesContent: React.FC = () => {
       filter: 'blur(0px)',
       transition: {
         duration: 0.8,
-        ease: [0.16, 1, 0.3, 1], // Premium Framer Motion easing
+        ease: "easeOut" as any as any, // Premium Framer Motion easing
       },
     },
   };
