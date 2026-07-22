@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TOTAL_FRAMES = 192;
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
-const FRAME_EXTENSION = '.png';
+const FRAME_EXTENSION = '.webp';
 const BASE_PATH = '/sequences/hero/desktop/';
 
 const getFramePath = (index: number) => {

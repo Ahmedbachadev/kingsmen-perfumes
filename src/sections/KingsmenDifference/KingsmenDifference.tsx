@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useCMSContext } from '../../contexts/CMSContext';
 

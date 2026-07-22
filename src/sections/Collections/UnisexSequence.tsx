@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TOTAL_FRAMES = 130;
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
-const FRAME_EXTENSION = '.jpg';
+const FRAME_EXTENSION = '.webp';
 const BASE_PATH = '/sequences/unisex/desktop/';
 
 const getFramePath = (index: number) => {
@@ -17,6 +17,7 @@ const getFramePath = (index: number) => {
 };
 
 export const UnisexSequence: React.FC = () => {
+  const { config } = useCMSContext();
   const [, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);

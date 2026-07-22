@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const TOTAL_FRAMES = 129;
 const FRAME_DIGITS = 6;
 const FRAME_PREFIX = 'frame_';
-const FRAME_EXTENSION = '.png';
+const FRAME_EXTENSION = '.webp';
 const BASE_PATH = '/sequences/gentlemen/desktop/';
 
 const getFramePath = (index: number) => {
@@ -18,6 +18,7 @@ const getFramePath = (index: number) => {
 };
 
 export const GentlemenSequence: React.FC = () => {
+  const { config } = useCMSContext();
   const [, setLoadedCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
