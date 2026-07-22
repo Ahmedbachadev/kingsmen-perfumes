@@ -56,6 +56,7 @@ export interface ProductImage {
   url: string;
   sort_order: number;
   alt_text: string | null;
-  is_featured: boolean;
+  is_thumbnail: boolean;
+  is_featured?: boolean;
   created_at: string;
 }

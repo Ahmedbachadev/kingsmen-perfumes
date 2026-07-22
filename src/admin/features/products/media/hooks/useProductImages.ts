@@ -68,7 +68,7 @@ export const useProductImages = (productId?: string) => {
           url: url,
           sort_order: startingOrder + i,
           alt_text: file.name,
-          is_featured: isFeatured
+          is_thumbnail: isFeatured
         });
 
         newImages.push(meta);
@@ -97,7 +97,7 @@ export const useProductImages = (productId?: string) => {
       await mediaService.deleteImageMetadata(imageId);
       
       // If the deleted image was featured and we have others, make the first one featured
-      if (targetImage.is_featured && images.length > 1) {
+      if (targetImage.is_thumbnail && images.length > 1) {
         const newFeatured = images.find(img => img.id !== imageId);
         if (newFeatured) {
           setFeatured(newFeatured.id);
@@ -129,16 +129,16 @@ export const useProductImages = (productId?: string) => {
     // Optimistic UI
     setImages(prev => prev.map(img => ({
       ...img,
-      is_featured: img.id === imageId
+      is_thumbnail: img.id === imageId
     })));
 
     try {
       // Find old featured
-      const oldFeatured = images.find(img => img.is_featured);
+      const oldFeatured = images.find(img => img.is_thumbnail);
       if (oldFeatured && oldFeatured.id !== imageId) {
-        await mediaService.updateImageMetadata(oldFeatured.id, { is_featured: false });
+        await mediaService.updateImageMetadata(oldFeatured.id, { is_thumbnail: false });
       }
-      await mediaService.updateImageMetadata(imageId, { is_featured: true });
+      await mediaService.updateImageMetadata(imageId, { is_thumbnail: true });
     } catch (err: any) {
       console.error('Failed to update featured', err);
       setError('Failed to set featured image');

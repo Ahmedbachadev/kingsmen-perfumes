@@ -50,7 +50,7 @@ export const ImageCard: React.FC<Props> = ({
       ref={setNodeRef}
       style={style}
       className={`group relative bg-white rounded-xl border ${
-        image.is_featured ? 'border-neutral-900 ring-1 ring-neutral-900' : 'border-neutral-200'
+        image.is_thumbnail ? 'border-neutral-900 ring-1 ring-neutral-900' : 'border-neutral-200'
       } overflow-hidden shadow-sm hover:shadow-md transition-shadow`}
     >
       {/* Drag Handle */}
@@ -62,7 +62,7 @@ export const ImageCard: React.FC<Props> = ({
         <GripVertical className="w-4 h-4 text-neutral-700" />
       </div>
 
-      {image.is_featured && <FeaturedBadge />}
+      {image.is_thumbnail && <FeaturedBadge />}
 
       {/* Image Area */}
       <div className="aspect-square relative group/img">
@@ -70,7 +70,7 @@ export const ImageCard: React.FC<Props> = ({
         
         {/* Overlay actions */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10">
-          {!image.is_featured && (
+          {!image.is_thumbnail && (
             <button
               type="button"
               onClick={() => onSetFeatured(image.id)}

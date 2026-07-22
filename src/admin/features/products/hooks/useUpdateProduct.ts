@@ -34,7 +34,7 @@ export const useUpdateProduct = () => {
       // 3. Extract Thumbnail (from featured image or first image)
       let thumbnailUrl = '';
       if (data.images.length > 0) {
-        const featuredImage = data.images.find(img => img.is_featured);
+        const featuredImage = data.images.find(img => img.is_thumbnail);
         thumbnailUrl = featuredImage ? featuredImage.url : data.images[0].url;
       }
 
