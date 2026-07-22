@@ -75,9 +75,6 @@ const withSuspense = (Component: React.ComponentType) => (
 const AdminLayout = lazy(() => import('../admin/components/layout/AdminLayout').then(m => ({ default: m.AdminLayout })));
 const AdminLogin = lazy(() => import('../admin/pages/Login'));
 const AdminDashboard = lazy(() => import('../admin/pages/Dashboard'));
-const AdminProducts = lazy(() => import('../admin/pages/Products'));
-const AdminAddProduct = lazy(() => import('../admin/pages/Products/AddProduct'));
-const AdminEditProduct = lazy(() => import('../admin/pages/Products/EditProduct'));
 const AdminInventory = lazy(() => import('../admin/pages/Inventory'));
 const AdminCollections = lazy(() => import('../admin/features/collections/pages/CollectionsPage').then(m => ({ default: m.CollectionsPage })));
 const AdminAddCollection = lazy(() => import('../admin/features/collections/pages/AddCollectionPage').then(m => ({ default: m.AddCollectionPage })));
@@ -200,9 +197,6 @@ export const router = createBrowserRouter([
       { path: 'settings', element: withSuspense(AdminSettings) },
       
       // Restored Legacy Routes for completed modules
-      { path: 'products', element: withSuspense(AdminProducts) },
-      { path: 'products/new', element: withSuspense(AdminAddProduct) },
-      { path: 'products/:id', element: withSuspense(AdminEditProduct) },
       { path: 'inventory', element: withSuspense(AdminInventory) },
       { path: 'collections', element: withSuspense(AdminCollections) },
       { path: 'collections/new', element: withSuspense(AdminAddCollection) },

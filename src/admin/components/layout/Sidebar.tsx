@@ -27,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleCollapse, i
   const mainLinks = [
     { to: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/admin/cms', icon: Layers, label: 'CMS' },
-    { to: '/admin/products', icon: Package, label: 'Products' },
+    { to: '/admin/catalog/products', icon: Package, label: 'Products' },
     { to: '/admin/inventory', icon: Boxes, label: 'Inventory' },
     { to: '/admin/collections', icon: Layers, label: 'Collections' },
     { to: '/admin/orders', icon: ShoppingCart, label: 'Orders' },

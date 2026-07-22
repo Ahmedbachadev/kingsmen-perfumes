@@ -97,7 +97,9 @@ export default function ProductsPage() {
         case 'price-asc': return priceA - priceB;
         case 'price-desc': return priceB - priceA;
         case 'alpha-asc': return titleA.localeCompare(titleB);
-        case 'newest': return -1;
+        case 'newest': 
+          // Products are already sorted by newest from the database hook
+          return 0;
         case 'featured':
         default:
           return 0;
