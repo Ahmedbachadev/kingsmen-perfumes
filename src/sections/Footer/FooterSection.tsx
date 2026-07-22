@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useCMSContext } from '../../contexts/CMSContext';
 const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
