@@ -149,6 +149,7 @@ export const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
     children: [
       { index: true, element: withSuspense(AnalyticsDashboard) },
+      { path: 'cms', element: withSuspense(AdminCMS) },
       
       // Catalog
       { path: 'catalog/products', element: withSuspense(AdminProductsPage) },
@@ -195,7 +196,24 @@ export const router = createBrowserRouter([
       
       // System
       { path: 'system/notifications', element: withSuspense(NotificationsPage) },
-      { path: 'system/settings', element: withSuspense(SettingsPage) }
+      { path: 'system/settings', element: withSuspense(SettingsPage) },
+      { path: 'settings', element: withSuspense(AdminSettings) },
+      
+      // Restored Legacy Routes for completed modules
+      { path: 'products', element: withSuspense(AdminProducts) },
+      { path: 'products/new', element: withSuspense(AdminAddProduct) },
+      { path: 'products/:id', element: withSuspense(AdminEditProduct) },
+      { path: 'inventory', element: withSuspense(AdminInventory) },
+      { path: 'collections', element: withSuspense(AdminCollections) },
+      { path: 'collections/new', element: withSuspense(AdminAddCollection) },
+      { path: 'collections/:id', element: withSuspense(AdminEditCollection) },
+      { path: 'orders', element: withSuspense(AdminOrders) },
+      { path: 'orders/:id', element: withSuspense(AdminOrderDetails) },
+      { path: 'customers', element: withSuspense(AdminCustomers) },
+      { path: 'customers/:id', element: withSuspense(AdminCustomerProfile) },
+      { path: 'newsletter', element: withSuspense(AdminNewsletter) },
+      { path: 'media', element: withSuspense(AdminMedia) },
+      { path: 'profile', element: withSuspense(AdminProfile) }
     ]
   },
 ]);

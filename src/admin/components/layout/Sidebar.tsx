@@ -26,6 +26,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleCollapse, isMobileDrawer }) => {
   const mainLinks = [
     { to: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
+    { to: '/admin/cms', icon: Layers, label: 'CMS' },
     { to: '/admin/products', icon: Package, label: 'Products' },
     { to: '/admin/inventory', icon: Boxes, label: 'Inventory' },
     { to: '/admin/collections', icon: Layers, label: 'Collections' },
