@@ -147,9 +147,17 @@ export function useUpdateProduct(product: ProductWithRelations) {
     try {
       const finalData = { ...formData, status };
       
-      const validationErrors = validateProductForm(finalData);
-      if (Object.keys(validationErrors).length > 0) {
+      const { isValid, errors: validationErrors } = validateProductForm(finalData);
+      if (!isValid) {
         setErrors(validationErrors);
+        
+        // Find first error key to scroll to
+        const firstError = Object.keys(validationErrors)[0];
+        const element = document.getElementById(`field-${firstError}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.focus();
+        }
         throw new Error('Please fix the errors before saving.');
       }
 
