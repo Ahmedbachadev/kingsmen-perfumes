@@ -20,6 +20,8 @@ export const ImageUploader: React.FC<Props> = ({
     isLoading,
     isUploading,
     error,
+    uploadProgress,
+    uploadErrors,
     uploadImages,
     removeImage,
     reorderImages,
@@ -76,6 +78,8 @@ export const ImageUploader: React.FC<Props> = ({
             onDelete={removeImage}
             onSetFeatured={setFeatured}
             onUpdateAlt={updateAltText}
+            uploadProgress={uploadProgress}
+            uploadErrors={uploadErrors}
           />
         </>
       )}

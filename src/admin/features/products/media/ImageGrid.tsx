@@ -24,6 +24,8 @@ interface Props {
   onDelete: (id: string) => void;
   onSetFeatured: (id: string) => void;
   onUpdateAlt: (id: string, alt: string) => void;
+  uploadProgress?: Record<string, number>;
+  uploadErrors?: Record<string, string>;
 }
 
 export const ImageGrid: React.FC<Props> = ({
@@ -32,6 +34,8 @@ export const ImageGrid: React.FC<Props> = ({
   onDelete,
   onSetFeatured,
   onUpdateAlt,
+  uploadProgress = {},
+  uploadErrors = {},
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -76,6 +80,8 @@ export const ImageGrid: React.FC<Props> = ({
               onDelete={onDelete}
               onSetFeatured={onSetFeatured}
               onUpdateAlt={onUpdateAlt}
+              uploadProgress={uploadProgress[image.id]}
+              uploadError={uploadErrors[image.id]}
             />
           ))}
         </div>

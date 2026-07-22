@@ -19,31 +19,71 @@ export const getProductImages = async (productId: string): Promise<ProductImage[
   return data as ProductImage[];
 };
 
-export const uploadImageToStorage = async (file: File): Promise<string> => {
+export const uploadImageToStorage = async (
+  file: File,
+  onProgress?: (percent: number) => void
+): Promise<string> => {
   const options = {
-    maxSizeMB: 0.8, // 800 KB
+    maxSizeMB: 0.8,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
+    onProgress: (p: number) => {
+      // Compression counts as first 40% of perceived progress
+      onProgress?.(Math.round(p * 0.4));
+    },
   };
-  
+
   const compressedFile = await imageCompression(file, options);
-  
+
   const fileExt = compressedFile.name.split('.').pop() || 'jpg';
   const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
   const filePath = `product_images/${fileName}`;
 
-  const { error: uploadError } = await supabase.storage
-    .from('product-images')
-    .upload(filePath, compressedFile, {
-      cacheControl: '3600',
-      upsert: false
-    });
+  // Use XHR so we can track upload progress (Supabase JS doesn't expose this)
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-  if (uploadError) throw uploadError;
+  const publicUrl = await new Promise<string>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${supabaseUrl}/storage/v1/object/product-images/${filePath}`);
+    xhr.setRequestHeader('Authorization', `Bearer ${supabaseKey}`);
+    xhr.setRequestHeader('x-upsert', 'false');
+    xhr.setRequestHeader('Cache-Control', '3600');
 
-  const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
-  return data.publicUrl;
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        // Upload counts as remaining 60% of perceived progress
+        const uploadPercent = Math.round((e.loaded / e.total) * 60);
+        onProgress?.(40 + uploadPercent);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100);
+        const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
+        resolve(data.publicUrl);
+      } else {
+        let msg = 'Upload failed';
+        try {
+          const res = JSON.parse(xhr.responseText);
+          msg = res.message || res.error || msg;
+        } catch {}
+        reject(new Error(msg));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error('Network error during upload'));
+    xhr.ontimeout = () => reject(new Error('Upload timed out'));
+
+    const formData = new FormData();
+    formData.append('', compressedFile, fileName);
+    xhr.send(formData);
+  });
+
+  return publicUrl;
 };
+
 
 export const deleteImageFromStorage = async (url: string) => {
   // Extract path from public URL. This assumes the format .../storage/v1/object/public/products/<path>

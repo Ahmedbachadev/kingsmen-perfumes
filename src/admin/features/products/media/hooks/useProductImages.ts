@@ -8,6 +8,10 @@ export const useProductImages = (productId?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Per-file upload progress: fileId -> 0-100
+  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
+  // Per-file upload errors: fileId -> error message
+  const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (productId) {
@@ -31,12 +35,12 @@ export const useProductImages = (productId?: string) => {
   const uploadImages = async (files: File[]) => {
     setIsUploading(true);
     setError(null);
-    
+
     // Preliminary validation
     const validFiles = files.filter(file => {
       const err = validateImage(file);
       if (err) {
-        setError(err); // Just surface the last error or collect them
+        setError(err);
         return false;
       }
       return true;
@@ -47,20 +51,48 @@ export const useProductImages = (productId?: string) => {
       return;
     }
 
-    try {
-      const newImages: ProductImage[] = [];
+    // Assign a stable temp ID to each file for progress tracking
+    const fileIds = validFiles.map(() => `uploading-${Math.random().toString(36).substring(2, 9)}`);
+
+    // Seed progress at 0% and add placeholder cards immediately
+    const placeholders: ProductImage[] = fileIds.map((fileId, i) => ({
+      id: fileId,
+      product_id: productId || '',
+      url: URL.createObjectURL(validFiles[i]),
+      sort_order: images.length + i,
+      alt_text: validFiles[i].name,
+      is_thumbnail: images.length === 0 && i === 0,
+      created_at: new Date().toISOString(),
+      _uploading: true,
+    } as ProductImage & { _uploading: boolean }));
+
+    setImages(prev => [...prev, ...placeholders]);
+    setUploadProgress(prev => {
+      const next = { ...prev };
+      fileIds.forEach(id => { next[id] = 0; });
+      return next;
+    });
+    setUploadErrors(prev => {
+      const next = { ...prev };
+      fileIds.forEach(id => { delete next[id]; });
+      return next;
+    });
+
+    let hasAnySuccess = false;
+
+    for (let i = 0; i < validFiles.length; i++) {
+      const file = validFiles[i];
+      const fileId = fileIds[i];
+      const isFeatured = images.length === 0 && i === 0;
       const startingOrder = images.length;
 
-      for (let i = 0; i < validFiles.length; i++) {
-        const file = validFiles[i];
-        
-        // 1. Upload to storage
-        const url = await mediaService.uploadImageToStorage(file);
-        
-        // 2. Determine if it should be featured
-        const isFeatured = images.length === 0 && i === 0;
+      try {
+        // Upload to storage with real progress tracking
+        const url = await mediaService.uploadImageToStorage(file, (percent) => {
+          setUploadProgress(prev => ({ ...prev, [fileId]: percent }));
+        });
 
-        // 3. Save metadata to DB only if we have a real product ID
+        // Save metadata to DB (only if we have a real product ID)
         let meta: ProductImage;
         if (productId) {
           meta = await mediaService.saveImageMetadata({
@@ -71,8 +103,6 @@ export const useProductImages = (productId?: string) => {
             is_thumbnail: isFeatured
           });
         } else {
-          // No product yet — keep a local-only record so the UI shows the image
-          // The actual DB insert happens when the product form is submitted
           meta = {
             id: `local-${Date.now()}-${i}`,
             product_id: '',
@@ -84,17 +114,26 @@ export const useProductImages = (productId?: string) => {
           };
         }
 
-        newImages.push(meta);
-      }
+        // Replace placeholder with the real image record
+        setImages(prev => prev.map(img => img.id === fileId ? meta : img));
+        setUploadProgress(prev => { const next = { ...prev }; delete next[fileId]; return next; });
+        hasAnySuccess = true;
 
-      setImages(prev => [...prev, ...newImages]);
-    } catch (err: any) {
-      console.error('Upload failed', err);
-      setError(err.message || 'Failed to upload images');
-    } finally {
-      setIsUploading(false);
+      } catch (err: any) {
+        console.error('Upload failed for', file.name, err);
+        const errorMsg = err.message || 'Upload failed';
+        setUploadErrors(prev => ({ ...prev, [fileId]: errorMsg }));
+        // Mark progress as -1 to signal error state
+        setUploadProgress(prev => ({ ...prev, [fileId]: -1 }));
+      }
+    }
+
+    setIsUploading(false);
+    if (!hasAnySuccess && validFiles.length > 0) {
+      setError('One or more images failed to upload. Please try again.');
     }
   };
+
 
   const removeImage = async (imageId: string) => {
     // Optimistic UI
@@ -173,6 +212,8 @@ export const useProductImages = (productId?: string) => {
     isLoading,
     isUploading,
     error,
+    uploadProgress,
+    uploadErrors,
     uploadImages,
     removeImage,
     reorderImages,
