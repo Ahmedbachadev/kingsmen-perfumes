@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useProducts } from '../../hooks/useProducts';
 import { useCMSContext } from '../../contexts/CMSContext';
 
+import { useCartContext } from '../../contexts/CartContext';
+
 // Generates simple floating particles
 const Particles = () => {
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; duration: number; delay: number }[]>([]);
@@ -54,6 +56,7 @@ const Particles = () => {
 export const SignatureCollection = () => {
   const { config } = useCMSContext();
   const { products: allProducts } = useProducts();
+  const { addToCart } = useCartContext();
   const products = allProducts.filter((p: any) => p.isFeatured);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeProduct = products.length > 0 ? products[activeIndex] : null;
@@ -194,7 +197,7 @@ export const SignatureCollection = () => {
                     The essence of elegance.
                   </p>
                   <p className="text-white/60 text-base lg:text-lg font-light leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
-                    {activeProduct.description}
+                    {activeProduct.shortDescription || activeProduct.description}
                   </p>
 
                   <div className="flex items-center justify-center lg:justify-start gap-10 border-t border-white/10 pt-8 mb-8">
@@ -208,12 +211,18 @@ export const SignatureCollection = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center lg:justify-start">
+                  <div className="flex justify-center lg:justify-start gap-4">
+                    <button
+                      onClick={() => addToCart(activeProduct)}
+                      className="inline-flex items-center justify-center bg-[#E8D3A2] text-black px-8 py-3 tracking-[0.2em] uppercase text-xs font-medium hover:bg-white transition-colors duration-500"
+                    >
+                      Add to Bag
+                    </button>
                     <Link
                       to={`/products/${activeProduct.handle}`}
                       className="inline-flex items-center justify-center border border-[#E8D3A2]/30 text-[#E8D3A2] px-8 py-3 tracking-[0.2em] uppercase text-xs hover:bg-[#E8D3A2]/10 transition-colors duration-500"
                     >
-                      Explore Product
+                      Explore Full Story
                     </Link>
                   </div>
                 </div>
