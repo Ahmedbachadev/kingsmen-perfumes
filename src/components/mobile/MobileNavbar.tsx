@@ -105,7 +105,7 @@ export const MobileNavbar: React.FC = () => {
               }}
               className="font-serif text-[#FDFBF7] text-xl tracking-[0.25em] uppercase active:text-[#EBD5B3] transition-colors duration-500 cursor-pointer"
             >
-              <img src="/logo.svg" alt="Kingsmen Logo" className="h-5 object-contain active:scale-95 transition-transform duration-500" />
+              <img src="/logo.svg" alt="Kingsmen Logo" className="h-10 object-contain active:scale-95 transition-transform duration-500" />
             </a>
           </div>
 

@@ -159,7 +159,7 @@ export const Navbar = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.08)] to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
             </motion.div>
 
-            <img src="/logo.svg" alt="Kingsmen Logo" className="relative z-10 h-6 md:h-8 object-contain transition-transform duration-500 group-hover:scale-105" />
+            <img src="/logo.svg" alt="Kingsmen Logo" className="relative z-10 h-8 md:h-10 object-contain transition-transform duration-500 group-hover:scale-105" />
           </motion.a>
         </div>
 
