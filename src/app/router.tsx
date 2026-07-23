@@ -76,11 +76,11 @@ const AdminLayout = lazy(() => import('../admin/components/layout/AdminLayout').
 const AdminLogin = lazy(() => import('../admin/pages/Login'));
 const AdminDashboard = lazy(() => import('../admin/pages/Dashboard'));
 const AdminInventory = lazy(() => import('../admin/pages/Inventory'));
-const AdminCollections = lazy(() => import('../admin/features/collections/pages/CollectionsPage').then(m => ({ default: m.CollectionsPage })));
-const AdminAddCollection = lazy(() => import('../admin/features/collections/pages/AddCollectionPage').then(m => ({ default: m.AddCollectionPage })));
-const AdminEditCollection = lazy(() => import('../admin/features/collections/pages/EditCollectionPage').then(m => ({ default: m.EditCollectionPage })));
-const AdminOrders = lazy(() => import('../admin/features/orders/pages/OrdersPage').then(m => ({ default: m.OrdersPage })));
-const AdminOrderDetails = lazy(() => import('../admin/features/orders/pages/OrderDetailsPage').then(m => ({ default: m.OrderDetailsPage })));
+const AdminCollections = lazy(() => import('../admin/features/collections/pages/CollectionsPage'));
+const AdminAddCollection = lazy(() => import('../admin/features/collections/pages/AddCollectionPage'));
+const AdminEditCollection = lazy(() => import('../admin/features/collections/pages/EditCollectionPage'));
+const AdminOrders = lazy(() => import('../admin/features/orders/pages/OrdersPage'));
+const AdminOrderDetails = lazy(() => import('../admin/features/orders/pages/OrderDetailsPage'));
 const AdminCustomers = lazy(() => import('../admin/pages/Customers'));
 const AdminCustomerProfile = lazy(() => import('../admin/features/customers/pages/CustomerProfilePage'));
 const AdminCMS = lazy(() => import('../admin/features/cms/pages/CMSPage'));
@@ -142,11 +142,15 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: withSuspense(ProtectedRoute),
     errorElement: <NotFoundPage />,
     children: [
-      { index: true, element: withSuspense(AnalyticsDashboard) },
-      { path: 'cms', element: withSuspense(AdminCMS) },
+      {
+        path: '',
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: withSuspense(AnalyticsDashboard) },
+          { path: 'cms', element: withSuspense(AdminCMS) },
       
       // Catalog
       { path: 'catalog/products', element: withSuspense(AdminProductsPage) },
@@ -208,6 +212,8 @@ export const router = createBrowserRouter([
       { path: 'newsletter', element: withSuspense(AdminNewsletter) },
       { path: 'media', element: withSuspense(AdminMedia) },
       { path: 'profile', element: withSuspense(AdminProfile) }
+        ]
+      }
     ]
   },
 ]);

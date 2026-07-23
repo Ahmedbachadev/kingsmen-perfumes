@@ -7,7 +7,7 @@ interface Props {
 
 export const OrderSummary: React.FC<Props> = ({ order }) => {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(amount);
   };
 
   return (

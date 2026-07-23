@@ -106,8 +106,8 @@ export const ProductTables: React.FC<ProductTablesProps> = ({ data, isLoading })
  </span>
  </td>
  <td className="py-3 text-right text-neutral-600 ">{item.views.toLocaleString()}</td>
- <td className="py-3 text-right text-neutral-600 ">{item.sold.toLocaleString()}</td>
- <td className="py-3 text-right font-medium text-neutral-900 ">${item.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                  <td className="py-3 text-right text-sm text-neutral-600">{item.orders}</td>
+                  <td className="py-3 text-right font-medium text-neutral-900 ">Rs {item.revenue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
  </tr>
  ))}
  </tbody>

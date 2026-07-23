@@ -121,7 +121,7 @@ export const SignatureCollectionMobile = () => {
                         </span>
                         
                         <span className="text-white/80 text-[14px] font-light mb-5 tracking-widest">
-                          ${Number(product.priceRange?.minVariantPrice?.amount || 0).toFixed(0)}
+                          Rs {Number(product.priceRange?.minVariantPrice?.amount || 0).toFixed(0)}
                         </span>
                         
                         <div className="mt-auto w-full">

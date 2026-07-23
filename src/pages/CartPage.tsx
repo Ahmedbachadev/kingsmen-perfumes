@@ -70,7 +70,7 @@ export default function CartPage() {
                     {item.title}
                   </h3>
                   <p className="text-[#D4AF37] text-sm font-light tabular-nums">
-                    ${price.toFixed(2)}
+                    Rs {price.toFixed(0)}
                   </p>
 
                   <div className="flex items-center gap-3 mt-3">
@@ -105,7 +105,7 @@ export default function CartPage() {
 
                 <div className="text-right shrink-0">
                   <span className="text-white font-medium text-base md:text-lg tabular-nums">
-                    ${(price * item.quantity).toFixed(2)}
+                    Rs {(price * item.quantity).toFixed(0)}
                   </span>
                 </div>
               </div>
@@ -122,17 +122,16 @@ export default function CartPage() {
           <div className="space-y-3 text-sm">
             <div className="flex justify-between items-center">
               <span className="text-white/60">Subtotal</span>
-              <span className="text-white font-medium tabular-nums">${subtotal.toFixed(2)}</span>
+              <span className="text-white font-medium tabular-nums">Rs {subtotal.toFixed(0)}</span>
             </div>
-            <div className="flex justify-between items-center text-xs text-white/40">
-              <span>Shipping & Taxes</span>
-              <span>Calculated at checkout</span>
-            </div>
+            <p className="text-white/60 text-sm mt-1">Shipping & taxes calculated at checkout</p>
           </div>
 
-          <div className="border-t border-white/10 pt-4 flex justify-between items-center">
-            <span className="text-white font-semibold uppercase tracking-wider">Estimated Total</span>
-            <span className="text-[#D4AF37] text-2xl font-light tabular-nums">${subtotal.toFixed(2)}</span>
+          <div className="pt-6 border-t border-white/10 mb-8">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-white font-medium">Estimated Total</span>
+              <span className="text-[#D4AF37] text-2xl font-light tabular-nums">Rs {subtotal.toFixed(0)}</span>
+            </div>
           </div>
 
           <motion.button

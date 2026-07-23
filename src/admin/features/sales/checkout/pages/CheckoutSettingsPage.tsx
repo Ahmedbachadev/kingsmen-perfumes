@@ -19,6 +19,9 @@ export interface CheckoutSettingsState {
   minCodAmount: number;
   maxCodAmount: number;
   codCustomNote: string;
+  enableWireTransfer: boolean;
+  wireTransferBankAccount: string;
+  wireTransferWhatsApp: string;
   
   // Shipping Config
   flatShippingFee: number;
@@ -45,6 +48,9 @@ const DEFAULT_SETTINGS: CheckoutSettingsState = {
   minCodAmount: 0,
   maxCodAmount: 100000,
   codCustomNote: 'Pay with cash when your order is delivered.',
+  enableWireTransfer: false,
+  wireTransferBankAccount: '',
+  wireTransferWhatsApp: '03425269194',
 
   flatShippingFee: 15,
   enableFreeShipping: true,
@@ -160,7 +166,7 @@ export default function CheckoutSettingsPage() {
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          <span>Payment Methods (COD)</span>
+          <span>Payment Methods</span>
         </button>
 
         <button
@@ -269,6 +275,54 @@ export default function CheckoutSettingsPage() {
                   placeholder="Pay with cash when your order is delivered."
                 />
                 <p className="text-slate-400 text-xs mt-1">This text appears directly on the Cash on Delivery selection card.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm space-y-6">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h3 className="font-semibold text-slate-900 text-base">Wire Transfer Configuration</h3>
+                <p className="text-slate-500 text-xs mt-0.5">Control Wire Transfer (Bank Transfer) settings.</p>
+              </div>
+
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.enableWireTransfer}
+                  onChange={(e) => setSettings({ ...settings, enableWireTransfer: e.target.checked })}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Bank Account Information
+                </label>
+                <textarea
+                  rows={2}
+                  value={settings.wireTransferBankAccount}
+                  onChange={(e) => setSettings({ ...settings, wireTransferBankAccount: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 text-sm resize-none"
+                  placeholder="Bank Name, Account Title, Account Number, IBAN"
+                />
+                <p className="text-slate-400 text-xs mt-1">These details will be shown to customers when selecting Wire Transfer.</p>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+                  WhatsApp Number
+                </label>
+                <input
+                  type="text"
+                  value={settings.wireTransferWhatsApp}
+                  onChange={(e) => setSettings({ ...settings, wireTransferWhatsApp: e.target.value })}
+                  className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 text-sm"
+                  placeholder="03425269194"
+                />
+                <p className="text-slate-400 text-xs mt-1">Customers will be asked to send their payment screenshot to this number.</p>
               </div>
             </div>
           </div>

@@ -54,9 +54,10 @@ export const CollectionCharts: React.FC<CollectionChartsProps> = ({ charts, isLo
  return (
  <div className="bg-white border border-neutral-200 p-3 rounded-lg shadow-lg">
  <p className="text-sm font-medium text-neutral-900 mb-1">{label}</p>
- <p className="text-sm text-neutral-500">
- Revenue: <span className="font-semibold text-emerald-600">${Number(payload[0].value).toLocaleString()}</span>
- </p>
+ <div className="flex justify-between items-center">
+ <span className="text-sm text-neutral-600">Revenue:</span>
+ <span className="font-semibold text-emerald-600">Rs {Number(payload[0].value).toLocaleString()}</span>
+ </div>
  </div>
  );
  }

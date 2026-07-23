@@ -54,7 +54,7 @@ export function ProductCard({ product, onQuickView, editorial = false }: Product
               {product.description.substring(0, 80)}...
             </p>
           </div>
-          <span className="text-[#E8D3A2] text-lg tabular-nums tracking-wider">${price}</span>
+          <span className="text-[#E8D3A2] text-lg tabular-nums tracking-wider">Rs {price}</span>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ export function ProductCard({ product, onQuickView, editorial = false }: Product
         </p>
         
         <div className="w-full flex items-center justify-between mt-auto">
-          <span className="text-white/80 tabular-nums tracking-wider text-sm">${price}</span>
+          <span className="text-white/80 tabular-nums tracking-wider text-sm">Rs {price}</span>
           <button 
             onClick={(e) => { e.stopPropagation(); addToCart(product); }}
             className="text-[10px] text-black bg-white px-4 py-2 uppercase tracking-[0.2em] font-semibold hover:bg-[#E8D3A2] transition-colors duration-300 rounded-sm"

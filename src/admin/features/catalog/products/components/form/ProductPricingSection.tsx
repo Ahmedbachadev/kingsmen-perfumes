@@ -19,7 +19,7 @@ export function ProductPricingSection({ data, errors, onChange }: ProductPricing
             Price <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">Rs</span>
             <input
               type="number"
               min="0"
@@ -37,7 +37,7 @@ export function ProductPricingSection({ data, errors, onChange }: ProductPricing
             Compare at price
           </label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">Rs</span>
             <input
               type="number"
               min="0"

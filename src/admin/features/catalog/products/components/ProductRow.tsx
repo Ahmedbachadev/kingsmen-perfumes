@@ -14,9 +14,10 @@ export const ProductRow = memo(function ProductRow({ product, onEdit, onDelete }
  const [showMenu, setShowMenu] = useState(false);
 
  const formatPrice = (price: number) => {
- return new Intl.NumberFormat('en-US', {
+ return new Intl.NumberFormat('en-PK', {
  style: 'currency',
- currency: 'USD',
+ currency: 'PKR',
+ minimumFractionDigits: 0,
  }).format(price);
  };
 

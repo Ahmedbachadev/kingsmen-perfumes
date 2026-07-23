@@ -9,7 +9,7 @@ interface Props {
 
 export const OrderItemsTable: React.FC<Props> = ({ items = [] }) => {
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(amount);
   };
 
   if (items.length === 0) {

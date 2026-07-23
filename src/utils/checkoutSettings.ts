@@ -5,6 +5,9 @@ export interface CheckoutSettingsState {
   minCodAmount: number;
   maxCodAmount: number;
   codCustomNote: string;
+  enableWireTransfer: boolean;
+  wireTransferBankAccount: string;
+  wireTransferWhatsApp: string;
   
   // Shipping Config
   flatShippingFee: number;
@@ -31,6 +34,9 @@ export const DEFAULT_CHECKOUT_SETTINGS: CheckoutSettingsState = {
   minCodAmount: 0,
   maxCodAmount: 100000,
   codCustomNote: 'Pay with cash when your order is delivered.',
+  enableWireTransfer: false,
+  wireTransferBankAccount: '',
+  wireTransferWhatsApp: '03425269194',
 
   flatShippingFee: 15,
   enableFreeShipping: true,

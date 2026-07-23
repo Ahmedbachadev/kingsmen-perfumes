@@ -8,6 +8,7 @@ export interface CheckoutFormData {
   streetAddress: string;
   postalCode: string;
   notes?: string;
+  paymentMethod?: 'cod' | 'wire_transfer';
 }
 
 export interface CheckoutFormErrors {

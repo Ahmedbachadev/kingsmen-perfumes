@@ -138,6 +138,17 @@ export const updatePaymentStatus = async (id: string, payment_status: PaymentSta
     .eq('id', id);
 
   if (error) throw error;
+
+  const { error: timelineError } = await supabase
+    .from('order_timeline')
+    .insert([{
+      order_id: id,
+      status: 'processing', // Payment changes usually imply processing
+      title: `Payment status updated to ${payment_status}`,
+      description: null
+    }]);
+
+  if (timelineError) throw timelineError;
 };
 
 export const updateFulfillmentStatus = async (id: string, fulfillment_status: FulfillmentStatus) => {
@@ -147,6 +158,17 @@ export const updateFulfillmentStatus = async (id: string, fulfillment_status: Fu
     .eq('id', id);
 
   if (error) throw error;
+
+  const { error: timelineError } = await supabase
+    .from('order_timeline')
+    .insert([{
+      order_id: id,
+      status: fulfillment_status === 'fulfilled' ? 'shipped' : 'processing',
+      title: `Fulfillment status updated to ${fulfillment_status}`,
+      description: null
+    }]);
+
+  if (timelineError) throw timelineError;
 };
 
 export const updateOrderNotes = async (id: string, notes: string) => {

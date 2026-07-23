@@ -21,7 +21,8 @@ export function useCheckout() {
     area: '',
     streetAddress: '',
     postalCode: '',
-    notes: ''
+    notes: '',
+    paymentMethod: 'cod'
   });
 
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
@@ -60,8 +61,13 @@ export function useCheckout() {
   const submitOrder = useCallback(async () => {
     if (isSubmitting) return;
 
-    if (!settings.enableCod) {
+    if (formData.paymentMethod === 'cod' && !settings.enableCod) {
       setServerError('Cash on Delivery is currently disabled by store management.');
+      return;
+    }
+    
+    if (formData.paymentMethod === 'wire_transfer' && !settings.enableWireTransfer) {
+      setServerError('Wire Transfer is currently disabled by store management.');
       return;
     }
 
@@ -85,8 +91,15 @@ export function useCheckout() {
       setIsSubmitting(true);
       setServerError(null);
 
+      let finalNotes = formData.notes || '';
+      if (formData.paymentMethod === 'wire_transfer') {
+        finalNotes = finalNotes ? `${finalNotes}\nPayment Method: Wire Transfer` : 'Payment Method: Wire Transfer';
+      }
+      
+      const orderDataForService = { ...formData, notes: finalNotes };
+
       const result: CreatedOrderResult = await CheckoutService.placeCodOrder(
-        formData,
+        orderDataForService,
         items,
         subtotal,
         shippingFee,

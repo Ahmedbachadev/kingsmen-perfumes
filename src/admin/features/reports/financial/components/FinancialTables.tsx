@@ -42,11 +42,11 @@ export const FinancialTables: React.FC<FinancialTablesProps> = ({ data, isLoadin
  {data.daily.map((item, index) => (
  <tr key={index} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
  <td className="py-4 text-neutral-900 font-medium">{item.date}</td>
- <td className="py-4 text-right text-neutral-600 ">${item.grossRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right text-red-500">-${item.discounts.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right text-blue-500">+${item.shipping.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right font-semibold text-neutral-900 ">${item.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right font-medium text-green-600">${item.estimatedProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right text-neutral-600 ">Rs {item.grossRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right text-red-500">-Rs {item.discounts.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right text-blue-500">+Rs {item.shipping.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right font-semibold text-neutral-900 ">Rs {item.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right font-medium text-green-600">Rs {item.estimatedProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
  </tr>
  ))}
  </tbody>
@@ -69,9 +69,9 @@ export const FinancialTables: React.FC<FinancialTablesProps> = ({ data, isLoadin
  {data.monthly.map((item, index) => (
  <tr key={index} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
  <td className="py-4 text-neutral-900 font-semibold">{item.month}</td>
- <td className="py-4 text-right text-neutral-600 ">${item.grossRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right font-medium text-neutral-900 ">${item.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
- <td className="py-4 text-right font-medium text-green-600">${item.estimatedProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right text-neutral-600 ">Rs {item.grossRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right font-medium text-neutral-900 ">Rs {item.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right font-medium text-green-600">Rs {item.estimatedProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
  <td className="py-4 text-right">
  <span className="px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-700 ">
  {item.profitMargin.toFixed(1)}%

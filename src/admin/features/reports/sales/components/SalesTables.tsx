@@ -58,7 +58,7 @@ export const SalesTables: React.FC<SalesTablesProps> = ({ tables, isLoading }) =
  {order.status}
  </span>
  </td>
- <td className="py-3 text-right font-medium text-neutral-900 ">${order.total.toFixed(2)}</td>
+ <td className="py-3 text-right font-medium text-neutral-900 ">Rs {order.total.toFixed(2)}</td>
  </tr>
  ))}
  </tbody>
@@ -79,7 +79,7 @@ export const SalesTables: React.FC<SalesTablesProps> = ({ tables, isLoading }) =
  <tr key={day.date} className="border-b border-neutral-100 last:border-0">
  <td className="py-3 text-neutral-900 font-medium">{day.date}</td>
  <td className="py-3 text-neutral-600 ">{day.orders}</td>
- <td className="py-3 text-right font-medium text-neutral-900 ">${day.revenue.toFixed(2)}</td>
+ <td className="py-3 text-right font-medium text-neutral-900 ">Rs {day.revenue.toFixed(2)}</td>
  </tr>
  ))}
  </tbody>
@@ -100,7 +100,7 @@ export const SalesTables: React.FC<SalesTablesProps> = ({ tables, isLoading }) =
  <tr key={col.collection} className="border-b border-neutral-100 last:border-0">
  <td className="py-3 text-neutral-900 font-medium">{col.collection}</td>
  <td className="py-3 text-neutral-600 ">{col.orders}</td>
- <td className="py-3 text-right font-medium text-neutral-900 ">${col.revenue.toFixed(2)}</td>
+ <td className="py-3 text-right font-medium text-neutral-900 ">Rs {col.revenue.toFixed(2)}</td>
  </tr>
  ))}
  </tbody>
@@ -121,7 +121,7 @@ export const SalesTables: React.FC<SalesTablesProps> = ({ tables, isLoading }) =
  <tr key={prod.product} className="border-b border-neutral-100 last:border-0">
  <td className="py-3 text-neutral-900 font-medium">{prod.product}</td>
  <td className="py-3 text-neutral-600 ">{prod.sold}</td>
- <td className="py-3 text-right font-medium text-neutral-900 ">${prod.revenue.toFixed(2)}</td>
+ <td className="py-3 text-right font-medium text-neutral-900 ">Rs {prod.revenue.toFixed(2)}</td>
  </tr>
  ))}
  </tbody>

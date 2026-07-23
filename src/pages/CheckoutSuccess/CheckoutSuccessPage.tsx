@@ -68,7 +68,7 @@ export default function CheckoutSuccessPage() {
               </div>
               <div className="sm:text-right">
                 <span className="text-white/40 text-xs uppercase tracking-wider block">Total Amount</span>
-                <span className="text-white text-xl font-light">${order.totalAmount.toFixed(2)}</span>
+                <span className="text-white text-xl font-light">Rs {order.totalAmount.toFixed(0)}</span>
               </div>
             </div>
 

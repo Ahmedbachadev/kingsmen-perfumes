@@ -1,10 +1,11 @@
 export function formatCurrency(amount: number | string | null | undefined): string {
-  if (amount == null) return '$0.00';
+  if (amount == null) return 'Rs 0';
   const num = typeof amount === 'string' ? parseFloat(amount) : amount;
-  if (isNaN(num)) return '$0.00';
-  return new Intl.NumberFormat('en-US', {
+  if (isNaN(num)) return 'Rs 0';
+  return new Intl.NumberFormat('en-PK', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'PKR',
+    minimumFractionDigits: 0,
   }).format(num);
 }
 

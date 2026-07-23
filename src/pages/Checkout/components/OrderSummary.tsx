@@ -65,7 +65,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
       <div className="border-t border-white/10 pt-4 space-y-3">
         <div className="flex justify-between items-center text-sm">
           <span className="text-white/60">Subtotal</span>
-          <span className="text-white font-medium tabular-nums">${subtotal.toFixed(2)}</span>
+          <span className="text-white font-medium tabular-nums">Rs {subtotal.toFixed(0)}</span>
         </div>
 
         <div className="flex justify-between items-center text-sm">

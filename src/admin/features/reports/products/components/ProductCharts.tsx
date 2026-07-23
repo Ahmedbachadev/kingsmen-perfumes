@@ -135,7 +135,7 @@ export const ProductCharts: React.FC<ProductChartsProps> = ({ charts, isLoading 
  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
  <div>
  <div className="text-sm font-medium text-neutral-900 ">{item.name}</div>
- <div className="text-xs text-neutral-500">${item.value.toLocaleString()}</div>
+ <div className="text-xs text-neutral-500">Rs {item.value.toLocaleString()}</div>
  </div>
  </div>
  ))}

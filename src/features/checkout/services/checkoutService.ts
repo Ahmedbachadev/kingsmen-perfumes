@@ -50,12 +50,41 @@ export const checkoutService = {
         }
       }
 
-      // 3. Create Order
+      // 3. Create Shipping Address first to link to order
+      let addressId = null;
+      if (customerId) {
+        const { data: addressData, error: addressError } = await supabase
+          .from('customer_addresses')
+          .insert({
+            customer_id: customerId,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            address1: data.address1,
+            address2: data.area,
+            city: data.city,
+            province: data.province,
+            postal_code: data.postalCode || '',
+            country: 'Pakistan',
+            phone: data.phone,
+          })
+          .select('id')
+          .single();
+          
+        if (addressError) {
+          console.error('Error saving address:', addressError);
+        } else if (addressData) {
+          addressId = addressData.id;
+        }
+      }
+
+      // 4. Create Order linked to Address
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert({
           order_number: orderNumber,
           customer_id: customerId,
+          shipping_address_id: addressId,
+          billing_address_id: addressId,
           status: 'pending',
           payment_status: 'pending',
           fulfillment_status: 'unfulfilled',
@@ -70,25 +99,6 @@ export const checkoutService = {
         .single();
 
       if (orderError) throw new Error(`Failed to create order: ${orderError.message}`);
-
-      // 4. Create Shipping Address
-      if (customerId) {
-        const { error: addressError } = await supabase
-          .from('customer_addresses')
-          .insert({
-            customer_id: customerId,
-            first_name: data.firstName,
-            last_name: data.lastName,
-            address1: data.address1,
-            city: data.city,
-            province: data.province,
-            postal_code: data.postalCode || '',
-            country: 'Pakistan',
-            phone: data.phone,
-          });
-          
-        if (addressError) console.error('Error saving address:', addressError);
-      }
 
       // 5. Create Order Items and decrease inventory
       const orderItems = cartItems.map(item => {

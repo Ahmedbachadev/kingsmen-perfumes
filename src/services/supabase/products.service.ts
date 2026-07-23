@@ -28,6 +28,7 @@ export const ProductsService = {
     search?: string;
     status?: ProductRow['status'];
     categoryId?: string;
+    is_featured?: boolean;
   }) {
     let query = supabase
       .from('products')
@@ -39,6 +40,10 @@ export const ProductsService = {
 
     if (options?.status) {
       query = query.eq('status', options.status);
+    }
+
+    if (options?.is_featured !== undefined) {
+      query = query.eq('is_featured', options.is_featured);
     }
 
     if (options?.categoryId) {

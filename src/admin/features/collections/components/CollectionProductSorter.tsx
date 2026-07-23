@@ -106,7 +106,7 @@ export function CollectionProductSorter({ products, onReorder, onRemove }: Colle
                 {product.inventory > 0 ? `${product.inventory} in stock` : 'Out of stock'}
               </span>
               <span>•</span>
-              <span>${product.regular_price.toFixed(2)}</span>
+              <span>Rs {product.regular_price.toFixed(0)}</span>
             </div>
           </div>
           

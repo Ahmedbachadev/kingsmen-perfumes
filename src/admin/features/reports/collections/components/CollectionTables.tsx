@@ -43,8 +43,8 @@ export const CollectionTables: React.FC<CollectionTablesProps> = ({ data, isLoad
  <td className="py-4 text-neutral-900 font-medium">#{index + 1}</td>
  <td className="py-4 text-neutral-900 font-semibold">{item.name}</td>
  <td className="py-4 text-right text-neutral-600 ">{item.orders.toLocaleString()}</td>
- <td className="py-4 text-right text-neutral-600 ">{(item.orders * 1.5).toFixed(0)}</td>
- <td className="py-4 text-right font-medium text-neutral-900 ">${item.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+ <td className="py-4 text-right text-sm text-neutral-600">{item.items}</td>
+ <td className="py-4 text-right font-medium text-neutral-900 ">Rs {item.revenue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
  </tr>
  ))}
  </tbody>

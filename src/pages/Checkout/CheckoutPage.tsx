@@ -86,7 +86,12 @@ export default function CheckoutPage() {
         <div className="lg:col-span-7 space-y-8">
           <ContactForm formData={formData} errors={errors} onChange={updateField} />
           <ShippingForm formData={formData} errors={errors} onChange={updateField} />
-          <PaymentMethod customNote={settings?.codCustomNote} />
+          <PaymentMethod 
+            customNote={settings?.codCustomNote} 
+            formData={formData} 
+            settings={settings} 
+            onChange={updateField} 
+          />
         </div>
 
         {/* Right Column: Order Summary & Place Order */}
@@ -116,7 +121,7 @@ export default function CheckoutPage() {
               </>
             ) : (
               <>
-                <span>Place Order • Cash on Delivery</span>
+                <span>{formData.paymentMethod === 'wire_transfer' ? 'Place Order • Wire Transfer' : 'Place Order • Cash on Delivery'}</span>
                 <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
@@ -125,7 +130,7 @@ export default function CheckoutPage() {
           </motion.button>
 
           <p className="text-white/40 text-center text-xs tracking-wider">
-            🔒 Safe & Secure Cash on Delivery Checkout
+            🔒 Safe & Secure {formData.paymentMethod === 'wire_transfer' ? 'Wire Transfer' : 'Cash on Delivery'} Checkout
           </p>
         </div>
       </div>

@@ -76,13 +76,13 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({ charts, isLoad
  axisLine={false}
  tickLine={false}
  tick={{ fontSize: 12, fill: '#6b7280' }}
- tickFormatter={(value) => `$${value >= 1000 ? (value / 1000).toFixed(1) + 'k' : value}`}
+ tickFormatter={(value) => `Rs${value >= 1000 ? (value / 1000).toFixed(1) + 'k' : value}`}
  dx={-10}
  />
  <RechartsTooltip 
  contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
  itemStyle={{ color: '#171717', fontSize: '12px' }}
- formatter={(value: number, name: string) => [`$${value.toFixed(2)}`, name === 'profit' ? 'Est. Profit' : 'Revenue']}
+ formatter={(value: number, name: string) => [`Rs${value.toFixed(2)}`, name === 'profit' ? 'Est. Profit' : 'Revenue']}
  />
  <Line type="monotone" dataKey="revenue" stroke="#94a3b8" strokeWidth={2} dot={false} strokeDasharray="5 5" />
  <Line type="monotone" dataKey="profit" stroke="#16a34a" strokeWidth={3} dot={false} />
@@ -111,7 +111,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({ charts, isLoad
  </Pie>
  <RechartsTooltip 
  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
- formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']}
+ formatter={(value: number) => [`Rs${value.toFixed(2)}`, 'Amount']}
  />
  </PieChart>
  </ResponsiveContainer>
@@ -122,7 +122,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({ charts, isLoad
  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }} />
  <div>
  <div className="text-sm font-medium text-neutral-900 ">{item.name}</div>
- <div className="text-xs text-neutral-500">${item.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+ <div className="text-xs text-neutral-500">Rs{item.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
  </div>
  </div>
  ))}
