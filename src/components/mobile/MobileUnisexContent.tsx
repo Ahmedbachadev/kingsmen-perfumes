@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GlassButton } from '../shared/GlassButton';
+import { useCMSContext } from '../../contexts/CMSContext';
 
 export const MobileUnisexContent: React.FC = () => {
   const { config } = useCMSContext();

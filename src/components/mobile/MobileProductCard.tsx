@@ -15,8 +15,8 @@ export const MobileProductCard: React.FC<MobileProductCardProps> = ({ product, i
     navigate(`/products/${product.handle}`, 'morph');
   };
 
-  const image = (product as any).images?.edges[0]?.node?.url || '';
-  const collectionName = (product as any).collections?.edges[0]?.node?.title || 'Signature';
+  const image = product.featuredImage?.url || '';
+  const collectionName = product.collections?.edges[0]?.node?.title || 'Signature';
 
   return (
     <motion.div
