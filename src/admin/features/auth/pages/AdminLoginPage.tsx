@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { supabase } from '../../../../lib/supabase';
 
 export default function AdminLoginPage() {
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
  const [isLoading, setIsLoading] = useState(false);
+ const [error, setError] = useState<string | null>(null);
  const navigate = useNavigate();
+ const location = useLocation();
 
- const handleLogin = (e: React.FormEvent) => {
- e.preventDefault();
- setIsLoading(true);
- // Simulate API call
- setTimeout(() => {
- setIsLoading(false);
- navigate('/admin');
- }, 1000);
+ const from = location.state?.from?.pathname || '/admin';
+
+ const handleLogin = async (e: React.FormEvent) => {
+   e.preventDefault();
+   setIsLoading(true);
+   setError(null);
+
+   const { error: authError } = await supabase.auth.signInWithPassword({
+     email,
+     password,
+   });
+
+   setIsLoading(false);
+
+   if (authError) {
+     setError(authError.message);
+   } else {
+     navigate(from, { replace: true });
+   }
  };
 
  return (
@@ -36,6 +50,12 @@ export default function AdminLoginPage() {
  <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">Admin Portal</h1>
  <p className="text-neutral-400 text-sm">Sign in to manage your ecommerce platform</p>
  </div>
+
+ {error && (
+   <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl text-sm mb-6 text-center">
+     {error}
+   </div>
+ )}
 
  <form onSubmit={handleLogin} className="space-y-5">
  <div className="space-y-1">

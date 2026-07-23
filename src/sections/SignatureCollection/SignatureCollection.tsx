@@ -53,7 +53,8 @@ const Particles = () => {
 
 export const SignatureCollection = () => {
   const { config } = useCMSContext();
-  const { products } = useProducts();
+  const { products: allProducts } = useProducts();
+  const products = allProducts.filter((p: any) => p.isFeatured);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeProduct = products.length > 0 ? products[activeIndex] : null;
 

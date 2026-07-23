@@ -15,6 +15,7 @@ export function mapToShopifyProduct(product: ProductWithRelations): ShopifyProdu
       maxVariantPrice: { amount: product.regular_price.toString(), currencyCode: 'USD' } 
     },
     availableForSale: product.status === 'active' && product.inventory > 0,
+    isFeatured: product.is_featured || false,
     collections: { 
       edges: product.collection ? [{ node: { id: 'col_1', title: product.collection.name, handle: product.collection.name.toLowerCase() } }] : [] 
     },

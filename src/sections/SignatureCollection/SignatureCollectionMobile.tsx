@@ -11,7 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const SignatureCollectionMobile = () => {
   const { config } = useCMSContext();
-  const { products, loading } = useProducts();
+  const { products: allProducts, loading } = useProducts();
+  const products = allProducts.filter((p: any) => p.isFeatured);
   const [showAll, setShowAll] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
