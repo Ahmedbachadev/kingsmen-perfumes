@@ -11,14 +11,14 @@ export function mapToShopifyProduct(product: ProductWithRelations): ShopifyProdu
     description: product.description || product.short_description || '',
     shortDescription: product.short_description || '',
     featuredImage: product.images?.[0] ? { url: product.images[0].url, altText: product.images[0].alt_text || product.name } : null,
-    priceRange: { 
-      minVariantPrice: { amount: (product.sale_price || product.regular_price).toString(), currencyCode: 'USD' }, 
-      maxVariantPrice: { amount: product.regular_price.toString(), currencyCode: 'USD' } 
+    priceRange: {
+      minVariantPrice: { amount: (product.sale_price || product.regular_price).toString(), currencyCode: 'USD' },
+      maxVariantPrice: { amount: product.regular_price.toString(), currencyCode: 'USD' }
     },
     availableForSale: product.status === 'active' && product.inventory > 0,
     isFeatured: product.is_featured || false,
-    collections: { 
-      edges: product.collection ? [{ node: { id: 'col_1', title: product.collection.name, handle: product.collection.name.toLowerCase() } }] : [] 
+    collections: {
+      edges: product.collection ? [{ node: { id: 'col_1', title: product.collection.name, handle: product.collection.name.toLowerCase() } }] : []
     },
     top_notes: product.top_notes,
     heart_notes: product.heart_notes,

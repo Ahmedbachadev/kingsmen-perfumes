@@ -173,54 +173,54 @@ export const SignatureCollection = () => {
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -40, filter: 'blur(10px)' }}
                 transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                className="relative w-full h-full flex items-center justify-center"
+                className="relative w-full h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 pt-12 lg:pt-0"
               >
                 {/* Product Bottle */}
-                <Link to={`/products/${activeProduct.handle}`} className="relative w-[55%] aspect-[9/16] max-w-[550px] flex items-center justify-center cursor-pointer group">
+                <Link to={`/products/${activeProduct.handle}`} className="relative w-3/5 lg:w-[45%] max-w-[380px] aspect-[4/5] flex items-center justify-center cursor-pointer group z-10 shrink-0">
                   <motion.img
                     layoutId={`bottle-${activeProduct.handle}`}
                     src={activeProduct.featuredImage?.url || undefined}
                     alt={activeProduct.title}
-                    className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)] scale-110 group-hover:scale-[1.15] transition-transform duration-700"
+                    className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 group-hover:scale-105"
                   />
 
                   {/* Backlight behind bottle */}
-                  <div className="absolute inset-0 bg-[#E8D3A2]/10 blur-[80px] rounded-full -z-10 transform scale-75 group-hover:scale-90 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-[#E8D3A2]/10 blur-[60px] rounded-full -z-10 transform scale-75 group-hover:scale-90 transition-transform duration-700" />
                 </Link>
 
                 {/* Product Info Beside/Beneath Bottle */}
-                <div className="absolute bottom-24 lg:bottom-auto lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-[45%] text-center lg:text-left px-8 lg:px-0">
-                  <h3 className="text-4xl lg:text-6xl font-light text-white tracking-widest uppercase mb-4">
+                <div className="w-full lg:w-[50%] flex flex-col justify-center text-center lg:text-left z-20 px-4 lg:px-0">
+                  <h3 className="text-4xl lg:text-5xl font-light text-white tracking-widest uppercase mb-3">
                     {activeProduct.title}
                   </h3>
-                  <p className="text-[#E8D3A2] text-base lg:text-lg tracking-[0.2em] uppercase mb-6">
+                  <p className="text-[#E8D3A2] text-xs lg:text-sm tracking-[0.2em] uppercase mb-5">
                     The essence of elegance.
                   </p>
-                  <p className="text-white/60 text-base lg:text-lg font-light leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
+                  <p className="text-white/60 text-sm lg:text-base font-light leading-relaxed mb-8 max-w-md mx-auto lg:mx-0 line-clamp-4">
                     {activeProduct.shortDescription || activeProduct.description}
                   </p>
 
-                  <div className="flex items-center justify-center lg:justify-start gap-10 border-t border-white/10 pt-8 mb-8">
+                  <div className="flex items-center justify-center lg:justify-start gap-8 border-t border-white/10 pt-6 mb-8 w-full max-w-md mx-auto lg:mx-0">
                     <div>
-                      <span className="block text-white/40 text-xs uppercase tracking-widest mb-2">Volume</span>
-                      <span className="text-white/90 text-base font-light">100 ML</span>
+                      <span className="block text-white/40 text-[10px] uppercase tracking-widest mb-1">Volume</span>
+                      <span className="text-white/90 text-sm font-light">100 ML</span>
                     </div>
                     <div>
-                      <span className="block text-white/40 text-xs uppercase tracking-widest mb-2">Key Notes</span>
-                      <span className="text-white/90 text-base font-light">Premium Notes</span>
+                      <span className="block text-white/40 text-[10px] uppercase tracking-widest mb-1">Key Notes</span>
+                      <span className="text-white/90 text-sm font-light">Premium Notes</span>
                     </div>
                   </div>
 
-                  <div className="flex justify-center lg:justify-start gap-4">
+                  <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                     <button
                       onClick={() => addToCart(activeProduct)}
-                      className="inline-flex items-center justify-center bg-[#E8D3A2] text-black px-8 py-3 tracking-[0.2em] uppercase text-xs font-medium hover:bg-white transition-colors duration-500"
+                      className="w-full sm:w-auto inline-flex items-center justify-center bg-[#E8D3A2] text-black px-6 py-3 tracking-[0.2em] uppercase text-xs font-semibold hover:bg-white transition-colors duration-500"
                     >
                       Add to Bag
                     </button>
                     <Link
                       to={`/products/${activeProduct.handle}`}
-                      className="inline-flex items-center justify-center border border-[#E8D3A2]/30 text-[#E8D3A2] px-8 py-3 tracking-[0.2em] uppercase text-xs hover:bg-[#E8D3A2]/10 transition-colors duration-500"
+                      className="w-full sm:w-auto inline-flex items-center justify-center border border-[#E8D3A2]/30 text-[#E8D3A2] px-6 py-3 tracking-[0.2em] uppercase text-xs hover:bg-[#E8D3A2]/10 transition-colors duration-500"
                     >
                       Explore Full Story
                     </Link>

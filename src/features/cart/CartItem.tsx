@@ -11,7 +11,7 @@ export function CartItem({ item }: CartItemProps) {
   const { removeFromCart, updateQuantity } = useCartContext();
 
   const price = item.priceRange?.minVariantPrice.amount || '0.00';
-  
+
   return (
     <motion.div
       layout
@@ -23,9 +23,9 @@ export function CartItem({ item }: CartItemProps) {
       {/* Bottle Image */}
       <div className="w-20 h-24 flex-shrink-0 bg-white/5 rounded-xl flex items-center justify-center p-2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#E8D3A2]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <img 
-          src={item.featuredImage?.url || undefined} 
-          alt={item.title} 
+        <img
+          src={item.featuredImage?.url || undefined}
+          alt={item.title}
           className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] scale-110 group-hover:scale-[1.2] transition-transform duration-700"
         />
       </div>
@@ -39,8 +39,8 @@ export function CartItem({ item }: CartItemProps) {
             </h4>
             <p className="text-white/40 text-xs font-light">100 ML</p>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => removeFromCart(item.id)}
             className="text-white/20 hover:text-red-400/80 transition-colors p-1 -mr-1 -mt-1"
           >
@@ -52,9 +52,9 @@ export function CartItem({ item }: CartItemProps) {
         </div>
 
         <div className="flex items-center justify-between mt-4">
-          <QuantitySelector 
-            quantity={item.quantity} 
-            onUpdate={(qty) => updateQuantity(item.id, qty)} 
+          <QuantitySelector
+            quantity={item.quantity}
+            onUpdate={(qty) => updateQuantity(item.id, qty)}
           />
           <div className="text-right">
             <span className="text-[#E8D3A2] text-sm tracking-wider tabular-nums">

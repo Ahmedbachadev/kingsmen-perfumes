@@ -191,9 +191,7 @@ export const FooterSection = () => {
               transition={{ duration: 1, delay: 0.8 }}
               className="flex flex-col items-center mb-6"
             >
-              <span className="font-serif text-4xl md:text-5xl text-[#FDFBF7] tracking-widest uppercase mb-1">
-                {config.footer.companyName}
-              </span>
+              <img src="/logo.svg" alt={config.footer.companyName} className="h-12 md:h-16 object-contain mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
             </motion.div>
 
             <motion.p
